@@ -8,7 +8,6 @@
 
 <title>Приглашение ❤️</title>
 
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 
@@ -25,29 +24,22 @@ font-family:Inter,sans-serif;
 body{
 
 height:100vh;
-
 background:#050816;
 
 display:flex;
-
 justify-content:center;
-
 align-items:center;
 
+color:white;
 overflow:hidden;
 
-color:white;
-
 }
-
 
 
 #stars{
 
 position:fixed;
-
 width:100%;
-
 height:100%;
 
 }
@@ -59,7 +51,6 @@ height:100%;
 position:absolute;
 
 width:2px;
-
 height:2px;
 
 background:white;
@@ -74,26 +65,19 @@ animation:blink 3s infinite alternate;
 
 @keyframes blink{
 
-from{
-opacity:.2;
-}
+from{opacity:.2}
 
-to{
-opacity:1;
-}
+to{opacity:1}
 
 }
-
 
 
 
 .card{
 
-width:min(92%,520px);
+width:min(92%,500px);
 
 padding:40px;
-
-text-align:center;
 
 background:rgba(255,255,255,.06);
 
@@ -101,55 +85,11 @@ border:1px solid rgba(255,255,255,.15);
 
 border-radius:30px;
 
-backdrop-filter:blur(18px);
+backdrop-filter:blur(20px);
+
+text-align:center;
 
 box-shadow:0 0 50px rgba(56,189,248,.2);
-
-animation:show .8s;
-
-}
-
-
-
-@keyframes show{
-
-from{
-
-opacity:0;
-
-transform:translateY(30px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-
-
-
-.heart{
-
-font-size:55px;
-
-animation:pulse 1.5s infinite;
-
-}
-
-
-
-@keyframes pulse{
-
-50%{
-
-transform:scale(1.15);
-
-}
 
 }
 
@@ -157,17 +97,17 @@ transform:scale(1.15);
 
 h1{
 
-font-size:36px;
+font-size:38px;
 
-margin:20px 0;
+margin-bottom:20px;
 
 }
 
 
 
-.message{
+.text{
 
-font-size:21px;
+font-size:20px;
 
 line-height:32px;
 
@@ -183,19 +123,9 @@ margin-top:25px;
 
 padding:20px;
 
-border-radius:20px;
-
 background:rgba(255,255,255,.08);
 
-}
-
-
-
-.item{
-
-font-size:18px;
-
-margin:12px;
+border-radius:20px;
 
 }
 
@@ -203,35 +133,11 @@ margin:12px;
 
 .place{
 
-margin-top:25px;
-
-padding:25px;
-
-background:rgba(56,189,248,.12);
-
-border-radius:20px;
-
-}
-
-
-
-.place h2{
-
-font-size:22px;
-
-margin-bottom:15px;
-
-}
-
-
-
-#placeText{
-
 font-size:24px;
 
 color:#38BDF8;
 
-font-weight:600;
+margin-top:15px;
 
 }
 
@@ -241,52 +147,105 @@ font-weight:600;
 
 margin-top:25px;
 
-padding:25px;
-
-border-radius:20px;
-
-background:rgba(56,189,248,.12);
-
-}
-
-
-
-.timer h2{
-
 font-size:22px;
-
-margin-bottom:15px;
-
-}
-
-
-
-#countdown{
-
-font-size:24px;
 
 color:#38BDF8;
 
-font-weight:600;
+}
+
+
+
+.secret{
+
+margin-top:30px;
+
+padding:20px;
+
+background:rgba(56,189,248,.12);
+
+border-radius:20px;
 
 }
 
 
 
-#status{
+button{
+
+margin-top:15px;
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:15px;
+
+background:#38BDF8;
+
+color:white;
+
+font-size:17px;
+
+cursor:pointer;
+
+}
+
+
+
+.hidden{
+
+display:none;
+
+}
+
+
+
+#letter{
 
 margin-top:20px;
 
-color:#7dd3fc;
+padding:25px;
+
+background:rgba(255,255,255,.1);
+
+border-radius:20px;
+
+animation:open .8s;
+
+font-size:20px;
+
+line-height:30px;
 
 }
+
+
+
+@keyframes open{
+
+from{
+
+opacity:0;
+
+transform:scale(.8);
+
+}
+
+to{
+
+opacity:1;
+
+transform:scale(1);
+
+}
+
+}
+
 
 
 </style>
 
-
 </head>
-
 
 
 <body>
@@ -297,28 +256,16 @@ color:#7dd3fc;
 
 
 
-
 <div class="card">
 
 
-<div class="heart">
-
-❤️
-
-</div>
-
-
-
 <h1>
-
-Приглашение
-
+❤️ Приглашение
 </h1>
 
 
 
-
-<div class="message">
+<div class="text">
 
 Я хочу провести этот день вместе с тобой ✨
 
@@ -327,27 +274,28 @@ color:#7dd3fc;
 
 
 
-
-<div class="place">
-
-
-<h2>
-
-Наш план
-
-</h2>
+<div class="box">
 
 
-<div id="placeText">
+<div>
 
-Загрузка...
+📅
+
+<span id="date">...</span>
+
+</div>
+
+
+<div style="margin-top:10px">
+
+🕒
+
+<span id="time">...</span>
 
 </div>
 
 
 </div>
-
-
 
 
 
@@ -355,29 +303,16 @@ color:#7dd3fc;
 <div class="box">
 
 
-<div class="item">
+<div>
 
-📅
-
-<span id="date">
-
--
-
-</span>
+Наш план:
 
 </div>
 
 
+<div class="place" id="place">
 
-<div class="item">
-
-🕒
-
-<span id="time">
-
--
-
-</span>
+Загрузка...
 
 </div>
 
@@ -391,25 +326,53 @@ color:#7dd3fc;
 <div class="timer">
 
 
+⏳
+
+<div id="meetingTimer">
+
+...
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="secret">
+
+
 <h2>
 
-⏳ До встречи осталось
+🔒 Секретное сообщение
 
 </h2>
 
 
-<div id="countdown">
+<div id="secretTimer">
 
-Загрузка...
-
-</div>
-
+Проверка...
 
 </div>
 
 
 
-<div id="status"></div>
+<button id="openSecret" class="hidden">
+
+💌 Открыть секрет
+
+</button>
+
+
+
+<div id="letter" class="hidden"></div>
+
+
+
+</div>
 
 
 
@@ -441,26 +404,21 @@ updateUser
 const stars=document.getElementById("stars");
 
 
-
-for(let i=0;i<200;i++){
-
-
-const star=document.createElement("div");
+for(let i=0;i<180;i++){
 
 
-star.className="star";
+let s=document.createElement("div");
 
 
-star.style.left=Math.random()*100+"%";
+s.className="star";
 
 
-star.style.top=Math.random()*100+"%";
+s.style.left=Math.random()*100+"%";
+
+s.style.top=Math.random()*100+"%";
 
 
-star.style.animationDelay=Math.random()*5+"s";
-
-
-stars.appendChild(star);
+stars.appendChild(s);
 
 
 }
@@ -469,57 +427,34 @@ stars.appendChild(star);
 
 
 
-
-function createPlaceText(place){
-
-
-
-if(!place){
-
-return "Сюрприз ❤️";
-
-}
+let user;
 
 
 
-if(place.includes("Кино")){
+function formatPlace(place){
 
 
-return "🎬 Я приглашаю тебя в кино ❤️";
+if(!place) return "Сюрприз ❤️";
 
 
-}
+if(place.includes("Кино"))
+
+return "🎬 Кино ❤️";
 
 
+if(place.includes("Прогулка"))
 
-if(place.includes("Прогулка")){
-
-
-return "🚶 Я приглашаю тебя на прогулку ❤️";
+return "🚶 Прогулка ❤️";
 
 
-}
+if(place.includes("Кафе"))
+
+return "☕ Кафе ❤️";
 
 
+if(place.includes("Дом"))
 
-if(place.includes("Дом")){
-
-
-return "🏠 Я приглашаю тебя на уютный вечер ❤️";
-
-
-}
-
-
-
-if(place.includes("Кафе")){
-
-
-return "☕ Я приглашаю тебя в кафе ❤️";
-
-
-}
-
+return "🏠 Уютный вечер ❤️";
 
 
 return place;
@@ -532,109 +467,53 @@ return place;
 
 
 
-
-function startTimer(date,time){
-
+function timer(target,id,callback){
 
 
-const target=new Date(
-
-date+"T"+time
-
-).getTime();
+let interval=setInterval(()=>{
 
 
+let now=new Date().getTime();
 
 
-const interval=setInterval(()=>{
+let diff=new Date(target).getTime()-now;
 
 
 
-const now=new Date().getTime();
-
-
-
-const distance=target-now;
-
-
-
-
-if(distance<=0){
-
-
-
-document.getElementById("countdown").innerHTML=
-
-"❤️ Время встречи наступило";
-
+if(diff<=0){
 
 
 clearInterval(interval);
 
 
-return;
+document.getElementById(id).innerHTML="❤️ Сейчас";
 
+
+if(callback) callback();
+
+
+return;
 
 }
 
 
 
+let d=Math.floor(diff/86400000);
 
 
-const days=Math.floor(
-
-distance/(1000*60*60*24)
-
-);
+let h=Math.floor(diff%86400000/3600000);
 
 
+let m=Math.floor(diff%3600000/60000);
 
-const hours=Math.floor(
 
-(distance%(1000*60*60*24))
-
-/(1000*60*60)
-
-);
+let s=Math.floor(diff%60000/1000);
 
 
 
-const minutes=Math.floor(
+document.getElementById(id).innerHTML=
 
-(distance%(1000*60*60))
-
-/(1000*60)
-
-);
-
-
-
-const seconds=Math.floor(
-
-(distance%(1000*60))
-
-/1000
-
-);
-
-
-
-
-document.getElementById("countdown").innerHTML=
-
-`
-
-${days} дней<br>
-
-${hours} часов
-
-${minutes} минут
-
-${seconds} секунд
-
-`;
-
-
+`${d}д ${h}ч ${m}м ${s}с`;
 
 
 
@@ -648,30 +527,17 @@ ${seconds} секунд
 
 
 
-
-
-async function loadInvite(){
-
-
-try{
+async function start(){
 
 
 
-const user=await loadUser();
-
+user=await loadUser();
 
 
 
 if(!user){
 
-
-document.getElementById("status").innerHTML=
-
-"Пользователь не найден";
-
-
 return;
-
 
 }
 
@@ -679,25 +545,20 @@ return;
 
 
 
-document.getElementById("placeText").innerHTML=
+document.getElementById("place").innerHTML=
 
-createPlaceText(user.selectedPlace);
-
-
+formatPlace(user.selectedPlace);
 
 
 
 document.getElementById("date").innerHTML=
 
-user.selectedDate || "Не выбрано";
-
-
-
+user.selectedDate || "-";
 
 
 document.getElementById("time").innerHTML=
 
-user.selectedTime || "Не выбрано";
+user.selectedTime || "-";
 
 
 
@@ -706,11 +567,11 @@ user.selectedTime || "Не выбрано";
 if(user.selectedDate && user.selectedTime){
 
 
-startTimer(
+timer(
 
-user.selectedDate,
+user.selectedDate+"T"+user.selectedTime,
 
-user.selectedTime
+"meetingTimer"
 
 );
 
@@ -721,42 +582,80 @@ user.selectedTime
 
 
 
+
+// секрет
+
+
+
+if(user.secretDate){
+
+
+
+timer(
+
+user.secretDate,
+
+"secretTimer",
+
+()=>{
+
+
+document.getElementById("openSecret")
+
+.classList.remove("hidden");
+
+}
+
+
+);
+
+
+
+}
+
+
+
+
+document.getElementById("openSecret").onclick=async()=>{
+
+
+
+document.getElementById("letter").innerHTML=
+
+user.secretMessage || "❤️";
+
+
+document.getElementById("letter")
+
+.classList.remove("hidden");
+
+
+
+document.getElementById("openSecret")
+
+.classList.add("hidden");
+
+
+
 await updateUser({
 
-inviteOpened:true
+secretOpened:true
 
 });
 
 
 
-
-document.getElementById("status").innerHTML=
-
-"Приглашение открыто ✨";
+};
 
 
 
-}
-
-catch(e){
-
-
-console.log(e);
-
-
-document.getElementById("status").innerHTML=
-
-"Ошибка загрузки";
-
-
-}
 
 
 }
 
 
 
-loadInvite();
+start();
 
 
 
