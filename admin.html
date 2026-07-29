@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Админ панель</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+
+body{
+
+background:#050816;
+
+color:white;
+
+min-height:100vh;
+
+padding:30px;
+
+}
+
+
+
+h1{
+
+text-align:center;
+
+margin-bottom:30px;
+
+}
+
+
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+}
+
+
+
+.user{
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.12);
+
+border-radius:20px;
+
+padding:25px;
+
+margin-bottom:20px;
+
+backdrop-filter:blur(15px);
+
+box-shadow:0 0 25px rgba(56,189,248,.15);
+
+}
+
+
+
+.title{
+
+font-size:22px;
+
+color:#38BDF8;
+
+margin-bottom:15px;
+
+}
+
+
+
+.item{
+
+margin:10px 0;
+
+color:#dbeafe;
+
+}
+
+
+
+.answers{
+
+margin-top:15px;
+
+padding:15px;
+
+background:rgba(255,255,255,.05);
+
+border-radius:15px;
+
+}
+
+
+
+.answer{
+
+margin:8px 0;
+
+color:#cbd5e1;
+
+}
+
+
+
+.loading{
+
+text-align:center;
+
+color:#7dd3fc;
+
+font-size:20px;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>
+✨ Админ панель StarInvite
+</h1>
+
+
+
+<div id="users" class="loading">
+
+Загрузка пользователей...
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+db
+
+} from "./firebase.js";
+
+
+import {
+
+collection,
+
+getDocs
+
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+
+
+
+
+
+const usersBox =
+document.getElementById("users");
+
+
+
+
+
+async function loadUsers(){
+
+
+try{
+
+
+
+const snapshot = await getDocs(
+
+collection(db,"users")
+
+);
+
+
+
+usersBox.innerHTML="";
+
+
+
+
+
+if(snapshot.empty){
+
+
+usersBox.innerHTML=
+
+"Пользователей пока нет";
+
+
+return;
+
+
+}
+
+
+
+
+
+snapshot.forEach((doc)=>{
+
+
+
+const user = doc.data();
+
+
+
+let answersHTML="Нет ответов";
+
+
+
+
+if(user.answers && user.answers.length){
+
+
+
+answersHTML="";
+
+
+
+user.answers.forEach((a,i)=>{
+
+
+
+answersHTML += `
+
+<div class="answer">
+
+${i+1}. ${a}
+
+</div>
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+usersBox.innerHTML += `
+
+
+<div class="user">
+
+
+<div class="title">
+
+👤 Пользователь
+
+</div>
+
+
+<div class="item">
+
+ID:
+${doc.id}
+
+</div>
+
+
+
+<div class="item">
+
+📅 Дата встречи:
+
+${user.selectedDate || "нет"}
+
+</div>
+
+
+
+<div class="item">
+
+🕒 Время:
+
+${user.selectedTime || "нет"}
+
+</div>
+
+
+
+<div class="item">
+
+❤️ Приглашение открыто:
+
+${user.inviteOpened ? "Да" : "Нет"}
+
+</div>
+
+
+
+<div class="item">
+
+✅ Завершено:
+
+${user.completed ? "Да" : "Нет"}
+
+</div>
+
+
+
+<div class="answers">
+
+
+<b>
+Ответы:
+</b>
+
+
+${answersHTML}
+
+
+</div>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+}
+
+catch(e){
+
+
+console.log(e);
+
+
+usersBox.innerHTML=
+
+"Ошибка загрузки";
+
+
+}
+
+
+}
+
+
+
+loadUsers();
+
+
+
+</script>
+
+
+</body>
+
+</html>
