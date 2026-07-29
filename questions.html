@@ -8,7 +8,7 @@
 
 <title>Вопросы ✨</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 
 <style>
@@ -23,9 +23,9 @@ font-family:Inter,sans-serif;
 
 body{
 
-background:#050816;
-
 height:100vh;
+
+background:#050816;
 
 display:flex;
 
@@ -33,9 +33,9 @@ justify-content:center;
 
 align-items:center;
 
-overflow:hidden;
-
 color:white;
+
+overflow:hidden;
 
 }
 
@@ -65,11 +65,10 @@ background:white;
 
 border-radius:50%;
 
-opacity:.5;
-
 animation:blink 3s infinite alternate;
 
 }
+
 
 
 @keyframes blink{
@@ -110,7 +109,7 @@ box-shadow:0 0 35px rgba(56,189,248,.2);
 
 color:#7dd3fc;
 
-margin-bottom:15px;
+margin-bottom:20px;
 
 }
 
@@ -136,11 +135,9 @@ margin-bottom:30px;
 
 height:100%;
 
-width:20%;
-
 background:#38BDF8;
 
-transition:.4s;
+transition:.5s;
 
 }
 
@@ -148,11 +145,11 @@ transition:.4s;
 
 h2{
 
-font-size:27px;
+font-size:26px;
 
-line-height:38px;
+line-height:35px;
 
-margin-bottom:20px;
+margin-bottom:25px;
 
 }
 
@@ -176,8 +173,6 @@ color:white;
 
 font-size:16px;
 
-outline:none;
-
 }
 
 
@@ -186,9 +181,9 @@ outline:none;
 
 width:100%;
 
-margin-top:12px;
-
 padding:15px;
+
+margin:10px 0;
 
 border:none;
 
@@ -197,8 +192,6 @@ border-radius:15px;
 background:rgba(255,255,255,.08);
 
 color:white;
-
-font-size:16px;
 
 cursor:pointer;
 
@@ -216,7 +209,7 @@ background:#38BDF8;
 
 .next{
 
-margin-top:30px;
+margin-top:25px;
 
 width:100%;
 
@@ -243,7 +236,6 @@ cursor:pointer;
 </head>
 
 
-
 <body>
 
 
@@ -256,7 +248,7 @@ cursor:pointer;
 
 <div class="progress">
 
-Вопрос <span id="number">1</span> из 5
+Вопрос <span id="num">1</span> из 5
 
 </div>
 
@@ -289,6 +281,7 @@ cursor:pointer;
 
 
 
+
 <script type="module">
 
 
@@ -301,34 +294,29 @@ updateUser
 
 
 
-// Звезды
+
+// звезды
 
 
 const stars=document.getElementById("stars");
 
 
-for(let i=0;i<180;i++){
+for(let i=0;i<200;i++){
 
 
 const s=document.createElement("div");
 
-
 s.className="star";
-
 
 s.style.left=Math.random()*100+"%";
 
-
 s.style.top=Math.random()*100+"%";
-
-
-s.style.animationDelay=Math.random()*4+"s";
-
 
 stars.appendChild(s);
 
 
 }
+
 
 
 
@@ -341,7 +329,7 @@ const questions=[
 
 type:"text",
 
-question:"Что делает день для тебя по-настоящему хорошим?"
+text:"Что делает день для тебя по-настоящему хорошим?"
 
 },
 
@@ -350,7 +338,7 @@ question:"Что делает день для тебя по-настоящему
 
 type:"choice",
 
-question:"Какой вечер нравится больше?",
+text:"Какой вечер нравится больше?",
 
 answers:[
 
@@ -371,7 +359,7 @@ answers:[
 
 type:"choice",
 
-question:"Что выберешь?",
+text:"Что выберешь?",
 
 answers:[
 
@@ -392,7 +380,7 @@ answers:[
 
 type:"text",
 
-question:"Есть ли место, куда ты давно хотела сходить?"
+text:"Есть ли место, куда давно хотела сходить?"
 
 },
 
@@ -401,7 +389,7 @@ question:"Есть ли место, куда ты давно хотела схо
 
 type:"choice",
 
-question:"Что важнее всего на первом свидании?",
+text:"Что важнее всего?",
 
 answers:[
 
@@ -425,110 +413,95 @@ answers:[
 let current=0;
 
 
-const answers=[];
+let answers=[];
+
+
+
+const question=document.getElementById("question");
+
+const answerBox=document.getElementById("answers");
+
+
 
 
 
 function render(){
 
 
-
-number.innerHTML=current+1;
-
+document.getElementById("num").innerHTML=current+1;
 
 
-fill.style.width=
+document.getElementById("fill").style.width=
 
 ((current+1)/questions.length*100)+"%";
 
 
 
-question.innerHTML=
-
-questions[current].question;
+question.innerHTML=questions[current].text;
 
 
-
-const box=document.getElementById("answers");
-
-
-box.innerHTML="";
-
+answerBox.innerHTML="";
 
 
 
 if(questions[current].type==="text"){
 
 
-
-box.innerHTML=
-
-`
+answerBox.innerHTML=`
 
 <textarea id="textAnswer"></textarea>
 
 `;
 
 
-
 }
 
-
-
 else{
-
 
 
 questions[current].answers.forEach(a=>{
 
 
+let btn=document.createElement("button");
 
-box.innerHTML+=
 
-`
+btn.className="answer";
 
-<button class="answer"
 
-onclick="choose(this,'${a}')">
-
-${a}
-
-</button>
-
-`;
+btn.innerHTML=a;
 
 
 
-});
-
-
-
-}
-
-
-
-}
-
-
-
-window.choose=function(btn,value){
-
+btn.onclick=()=>{
 
 
 document.querySelectorAll(".answer")
 
-.forEach(b=>b.classList.remove("active"));
+.forEach(x=>x.classList.remove("active"));
 
 
 
 btn.classList.add("active");
 
 
-btn.dataset.value=value;
-
+btn.dataset.selected=a;
 
 
 };
+
+
+
+answerBox.appendChild(btn);
+
+
+});
+
+
+}
+
+
+
+}
 
 
 
@@ -538,19 +511,18 @@ window.nextQuestion=async function(){
 
 
 
-let answer;
+let value="";
 
 
 
 if(questions[current].type==="text"){
 
 
-
-answer=document.getElementById("textAnswer").value;
-
+value=document.getElementById("textAnswer").value;
 
 
-if(!answer){
+
+if(!value){
 
 alert("Напиши ответ ❤️");
 
@@ -559,14 +531,12 @@ return;
 }
 
 
-
 }
 
 else{
 
 
-const selected=document.querySelector(".answer.active");
-
+let selected=document.querySelector(".answer.active");
 
 
 if(!selected){
@@ -579,7 +549,7 @@ return;
 
 
 
-answer=selected.dataset.value;
+value=selected.dataset.selected;
 
 
 }
@@ -587,11 +557,13 @@ answer=selected.dataset.value;
 
 
 
-answers.push(answer);
+answers.push(value);
 
 
 
 current++;
+
+
 
 
 
@@ -607,15 +579,7 @@ answers:answers
 
 
 
-await updateUser({
-
-completed:true
-
-});
-
-
-
-location.href="date.html";
+window.location="date.html";
 
 
 return;
@@ -630,6 +594,7 @@ render();
 
 
 }
+
 
 
 
