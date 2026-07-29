@@ -326,52 +326,29 @@ window.location="login.html";
 
 <script type="module">
 
-
 import {
-
-createInvitation,
-
-loadInvitation
-
+    createInvitation,
+    loadInvitation
 } from "./database.js";
-
 
 
 (async()=>{
 
-
-try{
-
-
 await createInvitation();
 
+const data = await loadInvitation();
 
-const data=await loadInvitation();
-
-
-console.log("Данные Firestore:",data);
+console.log("Данные Firestore:", data);
 
 
-
-if(data.completed===true){
+if(data && data.completed){
 
 window.location="invite.html";
 
 }
 
 
-}
-
-catch(error){
-
-console.error("Firebase error:",error);
-
-}
-
-
-
 })();
-
 
 
 </script>
