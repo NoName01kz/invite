@@ -1,92 +1,98 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Добро пожаловать</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
+
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Inter",sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Inter",sans-serif;
 }
+
 
 body{
-    overflow:hidden;
-    background:#050816;
-    height:100vh;
+overflow:hidden;
+background:#050816;
+height:100vh;
+transition:1s;
 }
 
-/* Звёзды */
 
 #stars{
-    position:fixed;
-    width:100%;
-    height:100%;
-    overflow:hidden;
+position:fixed;
+width:100%;
+height:100%;
+overflow:hidden;
 }
+
 
 .star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    border-radius:50%;
-    animation:blink 3s infinite alternate;
+
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:blink 3s infinite alternate;
+
 }
+
 
 @keyframes blink{
-    from{
-        opacity:.2;
-        transform:scale(.8);
-    }
-    to{
-        opacity:1;
-        transform:scale(1.3);
-    }
+
+from{
+opacity:.2;
+transform:scale(.8);
 }
 
-/* Падающая звезда */
+to{
+opacity:1;
+transform:scale(1.3);
+}
+
+}
+
+
 
 .shooting-star{
 
-    position:absolute;
-    width:140px;
-    height:2px;
+position:absolute;
+width:140px;
+height:2px;
 
-    background:linear-gradient(to right,
-    white,
-    transparent);
+background:linear-gradient(to right,white,transparent);
 
-    transform:rotate(-30deg);
+transform:rotate(-30deg);
 
-    animation:shoot 2s linear forwards;
+animation:shoot 2s linear forwards;
 
 }
+
 
 @keyframes shoot{
 
 0%{
-
 opacity:0;
-transform:translate(0,0) rotate(-30deg);
-
 }
 
 10%{
-
 opacity:1;
-
 }
 
 100%{
 
 opacity:0;
+
 transform:translate(-700px,500px) rotate(-30deg);
 
 }
@@ -94,14 +100,12 @@ transform:translate(-700px,500px) rotate(-30deg);
 }
 
 
-/* Контент */
 
 .container{
 
 position:absolute;
 
 top:50%;
-
 left:50%;
 
 transform:translate(-50%,-50%);
@@ -123,39 +127,20 @@ backdrop-filter:blur(12px);
 
 box-shadow:0 0 40px rgba(0,180,255,.15);
 
-animation:fade 2s;
-
 }
 
-@keyframes fade{
 
-from{
-
-opacity:0;
-transform:translate(-50%,-40%);
-
-}
-
-to{
-
-opacity:1;
-transform:translate(-50%,-50%);
-
-}
-
-}
 
 h1{
 
 font-size:42px;
-
-font-weight:600;
 
 color:white;
 
 margin-bottom:25px;
 
 }
+
 
 p{
 
@@ -168,6 +153,7 @@ color:#d5d5d5;
 margin-bottom:40px;
 
 }
+
 
 button{
 
@@ -189,6 +175,7 @@ transition:.35s;
 
 }
 
+
 button:hover{
 
 transform:scale(1.05);
@@ -197,13 +184,17 @@ box-shadow:0 0 30px #38BDF8;
 
 }
 
+
 </style>
 
 </head>
 
+
 <body>
 
+
 <div id="stars"></div>
+
 
 <div class="container">
 
@@ -217,11 +208,13 @@ box-shadow:0 0 30px #38BDF8;
 
 </div>
 
+
+
 <script>
 
-// ---------- ЗВЁЗДЫ ----------
 
 const stars=document.getElementById("stars");
+
 
 for(let i=0;i<220;i++){
 
@@ -235,15 +228,14 @@ star.style.top=Math.random()*100+"%";
 
 star.style.animationDelay=Math.random()*5+"s";
 
-star.style.opacity=Math.random();
-
 stars.appendChild(star);
 
 }
 
-// ---------- ПАДАЮЩИЕ ----------
+
 
 setInterval(()=>{
+
 
 const s=document.createElement("div");
 
@@ -255,16 +247,19 @@ s.style.top=Math.random()*250+"px";
 
 stars.appendChild(s);
 
+
 setTimeout(()=>{
 
 s.remove();
 
 },2000);
 
+
 },8000);
 
 
-// ---------- ТЕКСТ ----------
+
+
 
 const title=document.getElementById("title");
 
@@ -272,25 +267,31 @@ const text=document.getElementById("text");
 
 const button=document.getElementById("start");
 
+
+
 setTimeout(()=>{
 
 title.innerHTML="Добро пожаловать.";
 
 },800);
 
+
+
 setTimeout(()=>{
 
-text.innerHTML=
-"Если ты сейчас здесь —<br><br>значит это было не случайно.";
+text.innerHTML="Если ты сейчас здесь —<br><br>значит это было не случайно.";
 
 },2200);
 
+
+
 setTimeout(()=>{
 
-text.innerHTML+=
-"<br><br>Этот сайт был создан только для одного человека.";
+text.innerHTML+="<br><br>Этот сайт был создан только для одного человека.";
 
 },4300);
+
+
 
 setTimeout(()=>{
 
@@ -299,54 +300,84 @@ button.style.display="inline-block";
 },6000);
 
 
-// ---------- КНОПКА ----------
 
 
 
-button.onclick = () => {
+button.onclick=()=>{
 
-    document.body.style.opacity="0";
-    document.body.style.transition="1s";
 
-    setTimeout(()=>{
+document.body.style.opacity="0";
 
-        window.location="login.html";
 
-    },1000);
+setTimeout(()=>{
+
+window.location="login.html";
+
+},1000);
+
 
 };
 
+
+
 </script>
+
 
 
 <script type="module">
 
+
 import {
-    createInvitation,
-    loadInvitation
+
+createInvitation,
+
+loadInvitation
+
 } from "./database.js";
 
 
-(async () => {
 
-    await createInvitation();
-
-    const data = await loadInvitation();
-
-    console.log("Данные Firestore:", data);
+(async()=>{
 
 
-    if(data.completed){
+try{
 
-        window.location="invite.html";
 
-    }
+await createInvitation();
+
+
+const data=await loadInvitation();
+
+
+console.log("Данные Firestore:",data);
+
+
+
+if(data.completed===true){
+
+window.location="invite.html";
+
+}
+
+
+}
+
+catch(error){
+
+console.error("Firebase error:",error);
+
+}
+
+
 
 })();
 
 
+
 </script>
 
-    
+
+
 </body>
+
 </html>
