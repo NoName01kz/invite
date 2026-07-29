@@ -1,50 +1,63 @@
 import {
     db,
+    auth,
     doc,
     getDoc,
     setDoc,
     serverTimestamp
 } from "./firebase.js";
 
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// Создание уникального ID пользователя
-function generateUserId(){
 
-    return "user_" + 
-    Math.random().toString(36).substring(2,10);
+// Получить текущего пользователя
+
+export function getCurrentUser(){
+
+    return new Promise((resolve)=>{
+
+
+        onAuthStateChanged(auth,(user)=>{
+
+
+            resolve(user);
+
+
+        });
+
+
+    });
 
 }
 
 
-// Получить ID пользователя
-export function getUserId(){
 
-    let id = localStorage.getItem("userId");
+// Создать профиль пользователя
+
+export async function createUser(){
 
 
-    if(!id){
+    const user = await getCurrentUser();
 
-        id = generateUserId();
 
-        localStorage.setItem("userId", id);
+    if(!user){
+
+        console.log("Пользователь не авторизован");
+
+        return null;
 
     }
 
 
-    return id;
 
-}
+    const userRef = doc(
+        db,
+        "users",
+        user.uid
+    );
 
-
-
-// Создать пользователя в Firestore
-export async function createUser(){
-
-
-    const id = getUserId();
-
-
-    const userRef = doc(db,"users",id);
 
 
     const snap = await getDoc(userRef);
@@ -56,20 +69,33 @@ export async function createUser(){
 
         await setDoc(userRef,{
 
+
+            email:user.email,
+
+
             completed:false,
+
 
             inviteOpened:false,
 
+
             answers:{},
+
 
             createdAt:serverTimestamp(),
 
+
             lastVisit:serverTimestamp()
+
 
         });
 
 
-        console.log("Создан новый пользователь:",id);
+
+        console.log(
+            "Создан пользователь:",
+            user.uid
+        );
 
 
     }
@@ -78,41 +104,66 @@ export async function createUser(){
 
         await setDoc(userRef,{
 
+
             lastVisit:serverTimestamp()
 
 
-        },{merge:true});
+        },{
 
+            merge:true
 
-        console.log("Пользователь найден:",id);
+        });
+
 
 
     }
 
 
-    return id;
+
+    return user.uid;
 
 
 }
 
 
 
-
 // Получить данные пользователя
+
 export async function loadUser(){
 
 
-    const id = getUserId();
+    const user = await getCurrentUser();
 
 
-    const userRef = doc(db,"users",id);
+    if(!user){
+
+        return null;
+
+    }
+
+
+
+    const userRef = doc(
+
+        db,
+
+        "users",
+
+        user.uid
+
+    );
+
 
 
     const snap = await getDoc(userRef);
 
 
 
-    if(!snap.exists()) return null;
+    if(!snap.exists()){
+
+        return null;
+
+    }
 
 
 
@@ -121,35 +172,74 @@ export async function loadUser(){
 
 }
 
+
+
+// Обновить данные
+
 export async function updateUser(data){
 
-    const id = getUserId();
 
-    const userRef = doc(db,"users",id);
+    const user = await getCurrentUser();
 
-    await setDoc(userRef,data,{merge:true});
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+
+    const userRef = doc(
+
+        db,
+
+        "users",
+
+        user.uid
+
+    );
+
+
+
+    await setDoc(
+
+        userRef,
+
+        data,
+
+        {
+
+            merge:true
+
+        }
+
+    );
+
 
 }
 
-// Сохранить выбранную дату и время
-export async function saveDateToUser(dateData){
-
-    const id = getUserId();
-
-    const userRef = doc(db,"users",id);
 
 
-    await setDoc(userRef,{
+// Сохранение даты
 
-        selectedDate: dateData.date,
-
-        selectedTime: dateData.time,
-
-        lastVisit: serverTimestamp()
-
-    },{merge:true});
+export async function saveDateToUser(data){
 
 
-    console.log("Дата сохранена:", dateData);
+    await updateUser({
+
+
+        selectedDate:data.date,
+
+
+        selectedTime:data.time,
+
+
+        lastVisit:serverTimestamp()
+
+
+    });
+
 
 }
