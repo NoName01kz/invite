@@ -303,21 +303,19 @@ button.style.display="inline-block";
 
 button.onclick = async () => {
 
+    // Проверяем Firebase
     await window.testFirebase();
 
+    // Анимация исчезновения
+    document.body.style.opacity = "0";
+    document.body.style.transition = "1s";
+
+    // Переход
+    setTimeout(() => {
+        window.location = "login.html";
+    }, 1000);
+
 };
-
-document.body.style.opacity="0";
-
-document.body.style.transition="1s";
-
-setTimeout(()=>{
-
-window.location="login.html";
-
-},1000);
-
-}
 
 </script>
 
