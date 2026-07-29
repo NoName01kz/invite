@@ -71,7 +71,94 @@ to{opacity:1}
 
 }
 
+.secret{
 
+margin-top:30px;
+
+padding:25px;
+
+background:rgba(255,255,255,.06);
+
+border-radius:25px;
+
+}
+
+
+
+#closedLetter{
+
+font-size:60px;
+
+animation:float 2s infinite alternate;
+
+}
+
+
+#closedLetter h2{
+
+font-size:20px;
+
+margin-top:15px;
+
+}
+
+
+
+@keyframes float{
+
+from{
+
+transform:translateY(0);
+
+}
+
+to{
+
+transform:translateY(-12px);
+
+}
+
+}
+
+
+
+#letter{
+
+margin-top:25px;
+
+padding:25px;
+
+background:rgba(56,189,248,.12);
+
+border-radius:20px;
+
+font-size:20px;
+
+line-height:32px;
+
+}
+
+
+
+.typing{
+
+border-right:2px solid white;
+
+animation:cursor .7s infinite;
+
+}
+
+
+
+@keyframes cursor{
+
+50%{
+
+border-color:transparent;
+
+}
+
+}
 
 .card{
 
@@ -622,21 +709,59 @@ document.getElementById("openSecret")
 document.getElementById("openSecret").onclick=async()=>{
 
 
+const button=document.getElementById("openSecret");
 
-document.getElementById("letter").innerHTML=
-
-user.secretMessage || "❤️";
-
-
-document.getElementById("letter")
-
-.classList.remove("hidden");
+const letter=document.getElementById("letter");
 
 
+button.classList.add("hidden");
 
-document.getElementById("openSecret")
 
-.classList.add("hidden");
+document.getElementById("closedLetter").innerHTML="💌✨";
+
+
+
+letter.classList.remove("hidden");
+
+letter.classList.add("typing");
+
+
+
+let message=user.secretMessage || 
+"Спасибо, что ты здесь ❤️";
+
+
+
+let i=0;
+
+
+letter.innerHTML="";
+
+
+
+let interval=setInterval(()=>{
+
+
+letter.innerHTML += message[i];
+
+
+i++;
+
+
+if(i>=message.length){
+
+
+clearInterval(interval);
+
+
+letter.classList.remove("typing");
+
+
+}
+
+
+
+},60);
 
 
 
