@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Вопросы ✨</title>
+<title>Несколько вопросов</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 
 <style>
@@ -17,15 +18,17 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Inter,sans-serif;
+font-family:"Inter",sans-serif;
 }
 
 
 body{
 
-height:100vh;
-
 background:#050816;
+
+overflow:hidden;
+
+height:100vh;
 
 display:flex;
 
@@ -34,8 +37,6 @@ justify-content:center;
 align-items:center;
 
 color:white;
-
-overflow:hidden;
 
 }
 
@@ -65,6 +66,8 @@ background:white;
 
 border-radius:50%;
 
+opacity:.5;
+
 animation:blink 3s infinite alternate;
 
 }
@@ -91,15 +94,39 @@ width:min(92%,470px);
 
 padding:35px;
 
+border-radius:24px;
+
 background:rgba(255,255,255,.06);
 
 border:1px solid rgba(255,255,255,.12);
 
-border-radius:25px;
-
 backdrop-filter:blur(15px);
 
-box-shadow:0 0 35px rgba(56,189,248,.2);
+box-shadow:0 0 35px rgba(56,189,248,.18);
+
+animation:fade .8s;
+
+}
+
+
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
 
 }
 
@@ -107,9 +134,11 @@ box-shadow:0 0 35px rgba(56,189,248,.2);
 
 .progress{
 
+font-size:14px;
+
 color:#7dd3fc;
 
-margin-bottom:20px;
+margin-bottom:15px;
 
 }
 
@@ -119,7 +148,7 @@ margin-bottom:20px;
 
 height:8px;
 
-background:rgba(255,255,255,.1);
+background:rgba(255,255,255,.08);
 
 border-radius:20px;
 
@@ -135,6 +164,8 @@ margin-bottom:30px;
 
 height:100%;
 
+width:20%;
+
 background:#38BDF8;
 
 transition:.5s;
@@ -145,9 +176,9 @@ transition:.5s;
 
 h2{
 
-font-size:26px;
+font-size:28px;
 
-line-height:35px;
+line-height:38px;
 
 margin-bottom:25px;
 
@@ -159,13 +190,17 @@ textarea{
 
 width:100%;
 
-height:130px;
+height:140px;
 
-padding:15px;
+resize:none;
+
+padding:18px;
 
 border:none;
 
-border-radius:15px;
+outline:none;
+
+border-radius:16px;
 
 background:rgba(255,255,255,.08);
 
@@ -177,29 +212,33 @@ font-size:16px;
 
 
 
-.answer{
+.option{
 
 width:100%;
 
-padding:15px;
+padding:16px;
 
-margin:10px 0;
+margin-top:12px;
 
 border:none;
 
-border-radius:15px;
+border-radius:16px;
 
 background:rgba(255,255,255,.08);
 
 color:white;
 
+font-size:17px;
+
 cursor:pointer;
+
+transition:.3s;
 
 }
 
 
 
-.answer.active{
+.option.active{
 
 background:#38BDF8;
 
@@ -209,7 +248,7 @@ background:#38BDF8;
 
 .next{
 
-margin-top:25px;
+margin-top:30px;
 
 width:100%;
 
@@ -217,7 +256,7 @@ padding:16px;
 
 border:none;
 
-border-radius:15px;
+border-radius:16px;
 
 background:#38BDF8;
 
@@ -242,13 +281,12 @@ cursor:pointer;
 <div id="stars"></div>
 
 
-
 <div class="card">
 
 
 <div class="progress">
 
-Вопрос <span id="num">1</span> из 5
+Вопрос <span id="number">1</span> из 5
 
 </div>
 
@@ -264,9 +302,7 @@ cursor:pointer;
 <h2 id="question"></h2>
 
 
-
 <div id="answers"></div>
-
 
 
 <button class="next" onclick="nextQuestion()">
@@ -293,30 +329,32 @@ updateUser
 
 
 
-
-
-// звезды
-
-
 const stars=document.getElementById("stars");
 
 
-for(let i=0;i<200;i++){
+
+for(let i=0;i<180;i++){
 
 
 const s=document.createElement("div");
 
+
 s.className="star";
+
 
 s.style.left=Math.random()*100+"%";
 
+
 s.style.top=Math.random()*100+"%";
+
+
+s.style.animationDelay=Math.random()*4+"s";
+
 
 stars.appendChild(s);
 
 
 }
-
 
 
 
@@ -329,37 +367,39 @@ const questions=[
 
 type:"text",
 
-text:"Что делает день для тебя по-настоящему хорошим?"
+question:"Что делает день для тебя по-настоящему хорошим?"
 
 },
+
 
 
 {
 
 type:"choice",
 
-text:"Какой вечер нравится больше?",
+question:"Куда ты хотела бы сходить?",
 
 answers:[
 
-"🌅 Закат",
-
-"☕ Кафе",
-
 "🎬 Кино",
 
-"🚶 Прогулка"
+"🚶 Прогулка",
+
+"🏠 Домашний вечер",
+
+"☕ Кафе"
 
 ]
 
 },
 
 
+
 {
 
 type:"choice",
 
-text:"Что выберешь?",
+question:"Что выберешь?",
 
 answers:[
 
@@ -376,20 +416,22 @@ answers:[
 },
 
 
+
 {
 
 type:"text",
 
-text:"Есть ли место, куда давно хотела сходить?"
+question:"Есть ли место, куда ты давно хотела сходить?"
 
 },
+
 
 
 {
 
 type:"choice",
 
-text:"Что важнее всего?",
+question:"Что важнее всего на встрече?",
 
 answers:[
 
@@ -406,20 +448,20 @@ answers:[
 }
 
 
+
 ];
+
+
 
 
 
 let current=0;
 
 
-let answers=[];
+let userAnswers=[];
 
 
-
-const question=document.getElementById("question");
-
-const answerBox=document.getElementById("answers");
+let selectedPlace="";
 
 
 
@@ -428,7 +470,7 @@ const answerBox=document.getElementById("answers");
 function render(){
 
 
-document.getElementById("num").innerHTML=current+1;
+document.getElementById("number").innerHTML=current+1;
 
 
 document.getElementById("fill").style.width=
@@ -437,21 +479,30 @@ document.getElementById("fill").style.width=
 
 
 
-question.innerHTML=questions[current].text;
+document.getElementById("question").innerHTML=
+
+questions[current].question;
 
 
-answerBox.innerHTML="";
+
+const box=document.getElementById("answers");
+
+
+box.innerHTML="";
+
+
 
 
 
 if(questions[current].type==="text"){
 
 
-answerBox.innerHTML=`
+box.innerHTML=`
 
-<textarea id="textAnswer"></textarea>
+<textarea id="answer"></textarea>
 
 `;
+
 
 
 }
@@ -462,36 +513,15 @@ else{
 questions[current].answers.forEach(a=>{
 
 
-let btn=document.createElement("button");
+box.innerHTML+=`
 
+<button class="option" onclick="selectOption(this,'${a}')">
 
-btn.className="answer";
+${a}
 
+</button>
 
-btn.innerHTML=a;
-
-
-
-btn.onclick=()=>{
-
-
-document.querySelectorAll(".answer")
-
-.forEach(x=>x.classList.remove("active"));
-
-
-
-btn.classList.add("active");
-
-
-btn.dataset.selected=a;
-
-
-};
-
-
-
-answerBox.appendChild(btn);
+`;
 
 
 });
@@ -507,28 +537,45 @@ answerBox.appendChild(btn);
 
 
 
+window.selectOption=function(btn,value){
+
+
+document.querySelectorAll(".option").forEach(b=>{
+
+
+b.classList.remove("active");
+
+
+});
+
+
+btn.classList.add("active");
+
+
+btn.dataset.value=value;
+
+
+
+};
+
+
+
+
+
+
+
 window.nextQuestion=async function(){
 
 
 
-let value="";
+let answer="";
 
 
 
 if(questions[current].type==="text"){
 
 
-value=document.getElementById("textAnswer").value;
-
-
-
-if(!value){
-
-alert("Напиши ответ ❤️");
-
-return;
-
-}
+answer=document.getElementById("answer").value;
 
 
 }
@@ -536,28 +583,46 @@ return;
 else{
 
 
-let selected=document.querySelector(".answer.active");
+const selected=document.querySelector(".option.active");
+
 
 
 if(!selected){
+
 
 alert("Выбери вариант ❤️");
 
 return;
 
-}
-
-
-
-value=selected.dataset.selected;
-
 
 }
 
 
 
+answer=selected.dataset.value;
 
-answers.push(value);
+
+}
+
+
+
+
+
+
+userAnswers.push(answer);
+
+
+
+
+// второй вопрос = место встречи
+
+if(current===1){
+
+
+selectedPlace=answer;
+
+
+}
 
 
 
@@ -573,13 +638,15 @@ if(current>=questions.length){
 
 await updateUser({
 
-answers:answers
+selectedPlace:selectedPlace,
+
+answers:userAnswers
 
 });
 
 
 
-window.location="date.html";
+location.href="date.html";
 
 
 return;
@@ -598,9 +665,7 @@ render();
 
 
 
-
 render();
-
 
 
 </script>
