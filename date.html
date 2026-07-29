@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выбор даты</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+background:#050816;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+}
+
+/* Звезды */
+
+#stars{
+position:fixed;
+width:100%;
+height:100%;
+}
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+opacity:.5;
+animation:blink 3s infinite alternate;
+}
+
+@keyframes blink{
+from{opacity:.2;}
+to{opacity:1;}
+}
+
+/* Карточка */
+
+.card{
+
+width:min(92%,420px);
+
+padding:35px;
+
+border-radius:25px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.12);
+
+backdrop-filter:blur(18px);
+
+box-shadow:0 0 40px rgba(56,189,248,.2);
+
+animation:fade .8s;
+
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+h1{
+
+font-size:30px;
+
+margin-bottom:15px;
+
+text-align:center;
+
+}
+
+p{
+
+text-align:center;
+
+color:#cbd5e1;
+
+margin-bottom:25px;
+
+line-height:28px;
+
+}
+
+label{
+
+display:block;
+
+margin-top:18px;
+
+margin-bottom:8px;
+
+font-size:15px;
+
+color:#94a3b8;
+
+}
+
+input{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:14px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+
+font-size:16px;
+
+outline:none;
+
+}
+
+button{
+
+margin-top:30px;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#38BDF8;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.02);
+
+box-shadow:0 0 20px #38BDF8;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="card">
+
+<h1>Последний шаг ✨</h1>
+
+<p>
+
+Теперь выбери день,
+
+в который тебе будет удобно встретиться.
+
+</p>
+
+<label>📅 Дата</label>
+
+<input
+type="date"
+id="date"
+>
+
+<label>🕒 Время</label>
+
+<input
+type="time"
+id="time"
+value="18:00"
+>
+
+<button onclick="saveDate()">
+
+Подтвердить ❤️
+
+</button>
+
+</div>
+
+<script>
+
+// Звезды
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<180;i++){
+
+const s=document.createElement("div");
+
+s.className="star";
+
+s.style.left=Math.random()*100+"%";
+
+s.style.top=Math.random()*100+"%";
+
+s.style.animationDelay=Math.random()*4+"s";
+
+stars.appendChild(s);
+
+}
+
+// Запрет прошлых дат
+
+const today=new Date().toISOString().split("T")[0];
+
+document.getElementById("date").min=today;
+
+function saveDate(){
+
+const date=document.getElementById("date").value;
+
+const time=document.getElementById("time").value;
+
+if(!date){
+
+alert("Выбери дату ❤️");
+
+return;
+
+}
+
+// Пока сохраняем локально.
+// Потом заменим Firebase.
+
+localStorage.setItem("selectedDate",date);
+localStorage.setItem("selectedTime",time);
+
+// Переход
+
+location.href="invite.html";
+
+}
+
+</script>
+
+</body>
+</html>
