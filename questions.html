@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Несколько вопросов</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Inter",sans-serif;
+}
+
+body{
+background:#050816;
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+/* ---------- Звезды ---------- */
+
+#stars{
+position:fixed;
+width:100%;
+height:100%;
+overflow:hidden;
+}
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+opacity:.5;
+animation:blink 3s infinite alternate;
+}
+
+@keyframes blink{
+from{opacity:.2;}
+to{opacity:1;}
+}
+
+/* ---------- Карточка ---------- */
+
+.card{
+
+width:min(92%,470px);
+
+padding:35px;
+
+border-radius:24px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.12);
+
+backdrop-filter:blur(15px);
+
+box-shadow:0 0 35px rgba(56,189,248,.18);
+
+animation:fade .8s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.progress{
+
+font-size:14px;
+
+color:#7dd3fc;
+
+margin-bottom:15px;
+
+}
+
+.bar{
+
+height:8px;
+
+background:rgba(255,255,255,.08);
+
+border-radius:20px;
+
+margin-bottom:30px;
+
+overflow:hidden;
+
+}
+
+.fill{
+
+width:20%;
+
+height:100%;
+
+background:#38BDF8;
+
+transition:.5s;
+
+}
+
+h2{
+
+font-size:28px;
+
+margin-bottom:20px;
+
+line-height:38px;
+
+}
+
+textarea{
+
+width:100%;
+
+height:140px;
+
+resize:none;
+
+padding:18px;
+
+border:none;
+
+outline:none;
+
+border-radius:16px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+
+font-size:16px;
+
+}
+
+button{
+
+margin-top:30px;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#38BDF8;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.02);
+
+box-shadow:0 0 20px #38BDF8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="card">
+
+<div class="progress">
+
+Вопрос <span id="number">1</span> из 5
+
+</div>
+
+<div class="bar">
+
+<div class="fill" id="fill"></div>
+
+</div>
+
+<h2 id="question"></h2>
+
+<div id="answers"></div>
+
+<button onclick="nextQuestion()">
+
+Далее →
+
+</button>
+
+</div>
+
+<script>
+
+// ---------- ЗВЕЗДЫ ----------
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<180;i++){
+
+const s=document.createElement("div");
+
+s.className="star";
+
+s.style.left=Math.random()*100+"%";
+
+s.style.top=Math.random()*100+"%";
+
+s.style.animationDelay=Math.random()*4+"s";
+
+stars.appendChild(s);
+
+}
+
+// ---------- ВОПРОСЫ ----------
+
+const questions=[
+
+{
+type:"text",
+question:"Что делает день для тебя по-настоящему хорошим?"
+},
+
+{
+type:"choice",
+question:"Какой вечер нравится больше?",
+answers:[
+"🌅 Закат",
+"☕ Кафе",
+"🎬 Кино",
+"🚶 Прогулка"
+]
+},
+
+{
+type:"choice",
+question:"Что выберешь?",
+answers:[
+"☕ Кофе",
+"🍵 Чай",
+"🧃 Сок",
+"🥤 Лимонад"
+]
+},
+
+{
+type:"text",
+question:"Есть ли место, куда ты давно хотела сходить?"
+},
+
+{
+type:"choice",
+question:"Что важнее всего на первом свидании?",
+answers:[
+"😊 Разговор",
+"😂 Смех",
+"🌇 Атмосфера",
+"🍰 Еда"
+]
+}
+
+];
+
+let current=0;
+
+const userAnswers=[];
+
+function render(){
+
+document.getElementById("number").innerHTML=current+1;
+
+document.getElementById("fill").style.width=((current+1)/questions.length*100)+"%";
+
+document.getElementById("question").innerHTML=questions[current].question;
+
+const area=document.getElementById("answers");
+
+area.innerHTML="";
+
+if(questions[current].type==="text"){
+
+area.innerHTML=`<textarea id="answer"></textarea>`;
+
+}else{
+
+questions[current].answers.forEach(answer=>{
+
+area.innerHTML+=`
+
+<button
+style="margin-top:12px;background:rgba(255,255,255,.08)"
+onclick="selectAnswer(this,'${answer}')">
+
+${answer}
+
+</button>
+
+`;
+
+});
+
+}
+
+}
+
+function selectAnswer(btn,text){
+
+document.querySelectorAll("#answers button").forEach(b=>{
+
+b.style.background="rgba(255,255,255,.08)";
+
+});
+
+btn.style.background="#38BDF8";
+
+btn.dataset.value=text;
+
+}
+
+function nextQuestion(){
+
+if(questions[current].type==="text"){
+
+userAnswers[current]=document.getElementById("answer").value;
+
+}else{
+
+const active=[...document.querySelectorAll("#answers button")]
+
+.find(x=>x.dataset.value);
+
+if(!active){
+
+alert("Выбери вариант ❤️");
+
+return;
+
+}
+
+userAnswers[current]=active.dataset.value;
+
+}
+
+current++;
+
+if(current>=questions.length){
+
+localStorage.setItem("answers",JSON.stringify(userAnswers));
+
+location.href="date.html";
+
+return;
+
+}
+
+render();
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
