@@ -12,7 +12,54 @@
 
 
 <style>
+.shooting-star{
 
+position:absolute;
+
+width:140px;
+
+height:2px;
+
+background:linear-gradient(
+to right,
+white,
+transparent
+);
+
+transform:rotate(-30deg);
+
+animation:shoot 2s linear forwards;
+
+}
+
+
+@keyframes shoot{
+
+0%{
+
+opacity:0;
+
+transform:translate(0,0) rotate(-30deg);
+
+}
+
+
+10%{
+
+opacity:1;
+
+}
+
+
+100%{
+
+opacity:0;
+
+transform:translate(-700px,500px) rotate(-30deg);
+
+}
+
+}
 *{
 margin:0;
 padding:0;
@@ -993,7 +1040,36 @@ document.getElementById("openSecret").onclick = async function(){
 }
 
 
+setInterval(()=>{
 
+
+const s=document.createElement("div");
+
+
+s.className="shooting-star";
+
+
+s.style.left=Math.random()*window.innerWidth+"px";
+
+
+s.style.top=Math.random()*250+"px";
+
+
+stars.appendChild(s);
+
+
+
+setTimeout(()=>{
+
+
+s.remove();
+
+
+},2000);
+
+
+
+},8000);
 start();
 
 
