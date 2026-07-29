@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Admin Login</title>
+
+<style>
+
+body{
+
+background:#050816;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial;
+color:white;
+
+}
+
+
+.box{
+
+width:350px;
+padding:35px;
+
+background:#111827;
+
+border-radius:20px;
+
+text-align:center;
+
+}
+
+
+input{
+
+width:100%;
+
+padding:15px;
+
+margin:10px 0;
+
+border-radius:10px;
+
+border:none;
+
+background:#1f2937;
+
+color:white;
+
+}
+
+
+button{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:10px;
+
+background:#38BDF8;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+
+#error{
+
+color:red;
+
+margin-top:15px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<h2>
+Администратор
+</h2>
+
+
+<input id="email" placeholder="Email">
+
+
+<input id="password" type="password" placeholder="Пароль">
+
+
+<button onclick="login()">
+
+Войти
+
+</button>
+
+
+<div id="error"></div>
+
+
+</div>
+
+
+
+<script type="module">
+
+
+import {
+
+auth,
+
+signInWithEmailAndPassword
+
+} from "./firebase.js";
+
+
+
+
+window.login=async()=>{
+
+
+let email=document.getElementById("email").value;
+
+
+let password=document.getElementById("password").value;
+
+
+
+try{
+
+
+await signInWithEmailAndPassword(
+
+auth,
+
+email,
+
+password
+
+);
+
+
+
+location.href="admin.html";
+
+
+
+}
+
+catch(e){
+
+
+document.getElementById("error").innerHTML=
+
+"Ошибка входа";
+
+
+}
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
