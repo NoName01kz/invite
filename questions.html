@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Несколько вопросов</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -26,8 +27,6 @@ align-items:center;
 color:white;
 }
 
-/* ---------- Звезды ---------- */
-
 #stars{
 position:fixed;
 width:100%;
@@ -50,7 +49,6 @@ from{opacity:.2;}
 to{opacity:1;}
 }
 
-/* ---------- Карточка ---------- */
 
 .card{
 
@@ -68,29 +66,8 @@ backdrop-filter:blur(15px);
 
 box-shadow:0 0 35px rgba(56,189,248,.18);
 
-animation:fade .8s;
-
 }
 
-@keyframes fade{
-
-from{
-
-opacity:0;
-
-transform:translateY(30px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
 
 .progress{
 
@@ -101,6 +78,7 @@ color:#7dd3fc;
 margin-bottom:15px;
 
 }
+
 
 .bar{
 
@@ -116,9 +94,8 @@ overflow:hidden;
 
 }
 
-.fill{
 
-width:20%;
+.fill{
 
 height:100%;
 
@@ -128,15 +105,15 @@ transition:.5s;
 
 }
 
+
 h2{
 
 font-size:28px;
 
 margin-bottom:20px;
 
-line-height:38px;
-
 }
+
 
 textarea{
 
@@ -162,6 +139,7 @@ font-size:16px;
 
 }
 
+
 button{
 
 margin-top:30px;
@@ -182,27 +160,22 @@ font-size:18px;
 
 cursor:pointer;
 
-transition:.3s;
-
 }
 
-button:hover{
-
-transform:scale(1.02);
-
-box-shadow:0 0 20px #38BDF8;
-
-}
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <div id="stars"></div>
 
+
 <div class="card">
+
 
 <div class="progress">
 
@@ -210,15 +183,19 @@ box-shadow:0 0 20px #38BDF8;
 
 </div>
 
+
 <div class="bar">
 
 <div class="fill" id="fill"></div>
 
 </div>
 
+
 <h2 id="question"></h2>
 
+
 <div id="answers"></div>
+
 
 <button onclick="nextQuestion()">
 
@@ -226,13 +203,24 @@ box-shadow:0 0 20px #38BDF8;
 
 </button>
 
+
 </div>
 
-<script>
 
-// ---------- ЗВЕЗДЫ ----------
+
+<script type="module">
+
+
+import {
+saveAnswers
+} from "./user.js";
+
+
+
+// Звезды
 
 const stars=document.getElementById("stars");
+
 
 for(let i=0;i<180;i++){
 
@@ -250,7 +238,9 @@ stars.appendChild(s);
 
 }
 
-// ---------- ВОПРОСЫ ----------
+
+
+// Вопросы
 
 const questions=[
 
@@ -299,34 +289,59 @@ answers:[
 
 ];
 
+
+
 let current=0;
 
 const userAnswers=[];
 
+
+
 function render(){
+
 
 document.getElementById("number").innerHTML=current+1;
 
-document.getElementById("fill").style.width=((current+1)/questions.length*100)+"%";
 
-document.getElementById("question").innerHTML=questions[current].question;
+document.getElementById("fill").style.width =
+((current+1)/questions.length*100)+"%";
+
+
+
+document.getElementById("question").innerHTML =
+questions[current].question;
+
+
 
 const area=document.getElementById("answers");
 
 area.innerHTML="";
 
+
+
 if(questions[current].type==="text"){
 
-area.innerHTML=`<textarea id="answer"></textarea>`;
 
-}else{
+area.innerHTML=
+`
+<textarea id="answer"></textarea>
+`;
+
+
+}
+else{
+
 
 questions[current].answers.forEach(answer=>{
+
 
 area.innerHTML+=`
 
 <button
-style="margin-top:12px;background:rgba(255,255,255,.08)"
+style="
+margin-top:12px;
+background:rgba(255,255,255,.08)
+"
 onclick="selectAnswer(this,'${answer}')">
 
 ${answer}
@@ -335,69 +350,133 @@ ${answer}
 
 `;
 
+
 });
 
-}
 
 }
 
-function selectAnswer(btn,text){
 
-document.querySelectorAll("#answers button").forEach(b=>{
+}
+
+
+
+window.selectAnswer=function(btn,text){
+
+
+document.querySelectorAll("#answers button")
+.forEach(b=>{
 
 b.style.background="rgba(255,255,255,.08)";
 
 });
 
+
 btn.style.background="#38BDF8";
 
 btn.dataset.value=text;
 
+
 }
 
-function nextQuestion(){
+
+
+
+window.nextQuestion=async function(){
+
+
 
 if(questions[current].type==="text"){
 
-userAnswers[current]=document.getElementById("answer").value;
 
-}else{
+userAnswers[current]=
+document.getElementById("answer").value;
+
+
+
+}
+else{
+
 
 const active=[...document.querySelectorAll("#answers button")]
-
 .find(x=>x.dataset.value);
 
+
+
 if(!active){
+
 
 alert("Выбери вариант ❤️");
 
 return;
 
+
 }
+
+
 
 userAnswers[current]=active.dataset.value;
 
+
 }
+
+
+
 
 current++;
 
+
+
 if(current>=questions.length){
 
-localStorage.setItem("answers",JSON.stringify(userAnswers));
+
+
+await saveAnswers({
+
+
+question1:userAnswers[0],
+
+question2:userAnswers[1],
+
+question3:userAnswers[2],
+
+question4:userAnswers[3],
+
+question5:userAnswers[4]
+
+
+});
+
+
+
+console.log("Ответы записаны в Firestore");
+
+
 
 location.href="date.html";
 
+
 return;
 
-}
-
-render();
 
 }
 
+
+
 render();
+
+
+
+}
+
+
+
+render();
+
+
 
 </script>
+
 
 </body>
 </html>
