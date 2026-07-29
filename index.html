@@ -301,7 +301,11 @@ button.style.display="inline-block";
 
 // ---------- КНОПКА ----------
 
-button.onclick=()=>{
+button.onclick = async () => {
+
+    await window.testFirebase();
+
+};
 
 document.body.style.opacity="0";
 
