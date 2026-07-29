@@ -103,37 +103,13 @@ box-shadow:0 0 50px rgba(56,189,248,.2);
 
 text-align:center;
 
-animation:show 1s;
-
-}
-
-
-
-@keyframes show{
-
-from{
-
-opacity:0;
-
-transform:translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
 }
 
 
 
 .heart{
 
-font-size:45px;
+font-size:50px;
 
 animation:pulse 1.5s infinite;
 
@@ -165,9 +141,9 @@ margin:20px 0;
 
 .text{
 
-font-size:20px;
+font-size:19px;
 
-line-height:32px;
+line-height:30px;
 
 color:#dbeafe;
 
@@ -191,7 +167,7 @@ background:rgba(255,255,255,.08);
 
 .item{
 
-margin:12px 0;
+margin:12px;
 
 font-size:18px;
 
@@ -203,13 +179,13 @@ font-size:18px;
 
 margin-top:25px;
 
-text-align:left;
-
-background:rgba(255,255,255,.05);
-
 padding:20px;
 
 border-radius:20px;
+
+background:rgba(255,255,255,.05);
+
+text-align:left;
 
 }
 
@@ -232,11 +208,19 @@ color:#cbd5e1;
 }
 
 
+.loading{
+
+color:#7dd3fc;
+
+margin-top:20px;
+
+}
+
 
 </style>
 
-</head>
 
+</head>
 
 
 <body>
@@ -254,7 +238,6 @@ color:#cbd5e1;
 </div>
 
 
-
 <h1>
 Приглашение
 </h1>
@@ -263,7 +246,7 @@ color:#cbd5e1;
 
 <div class="text">
 
-Это приглашение создано специально для тебя ✨
+Это место создано специально для тебя ✨
 
 </div>
 
@@ -296,6 +279,7 @@ color:#cbd5e1;
 
 <div class="answers">
 
+
 <h3>
 Твои ответы 💫
 </h3>
@@ -310,6 +294,9 @@ color:#cbd5e1;
 
 </div>
 
+
+
+<div class="loading" id="status"></div>
 
 
 </div>
@@ -332,13 +319,15 @@ updateUser
 
 
 
-// Звезды
+
+
+// звезды
 
 
 const stars=document.getElementById("stars");
 
 
-for(let i=0;i<180;i++){
+for(let i=0;i<200;i++){
 
 
 const s=document.createElement("div");
@@ -365,7 +354,17 @@ stars.appendChild(s);
 
 
 
-async function loadInvite(){
+
+
+async function openInvite(){
+
+
+
+const status=document.getElementById("status");
+
+
+
+try{
 
 
 
@@ -376,7 +375,7 @@ const user = await loadUser();
 if(!user){
 
 
-console.log("Нет пользователя");
+status.innerHTML="Пользователь не найден";
 
 
 return;
@@ -387,16 +386,16 @@ return;
 
 
 
-
 document.getElementById("date").innerHTML =
 
-user.selectedDate || "Дата не выбрана";
+user.selectedDate || "Не выбрана";
 
 
 
 document.getElementById("time").innerHTML =
 
-user.selectedTime || "Время не выбрано";
+user.selectedTime || "Не выбрано";
+
 
 
 
@@ -406,29 +405,32 @@ const list=document.getElementById("answersList");
 
 
 
-if(user.answers){
+if(user.answers && user.answers.length){
+
 
 
 list.innerHTML="";
 
 
-Object.values(user.answers).forEach((answer,index)=>{
+
+user.answers.forEach((item,index)=>{
 
 
-list.innerHTML +=
 
-`
+list.innerHTML += `
 
 <div class="answer">
 
-${index+1}. ${answer}
+${index+1}. ${item}
 
 </div>
 
 `;
 
 
+
 });
+
 
 
 }
@@ -436,10 +438,12 @@ ${index+1}. ${answer}
 else{
 
 
-list.innerHTML="Ответов пока нет";
+list.innerHTML="Ответов нет";
 
 
 }
+
+
 
 
 
@@ -452,16 +456,34 @@ inviteOpened:true
 
 
 
+status.innerHTML="Приглашение открыто ✨";
+
+
+
+}
+
+catch(e){
+
+
+console.log(e);
+
+
+status.innerHTML="Ошибка загрузки";
+
+
 }
 
 
 
-loadInvite();
+}
+
+
+
+openInvite();
 
 
 
 </script>
-
 
 
 </body>
