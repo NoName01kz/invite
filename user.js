@@ -120,3 +120,13 @@ export async function loadUser(){
 
 
 }
+
+export async function updateUser(data){
+
+    const id = getUserId();
+
+    const userRef = doc(db,"users",id);
+
+    await setDoc(userRef,data,{merge:true});
+
+}
