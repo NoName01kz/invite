@@ -35,8 +35,9 @@ justify-content:center;
 
 align-items:center;
 
-}
+color:white;
 
+}
 
 
 #stars{
@@ -48,7 +49,6 @@ width:100%;
 height:100%;
 
 }
-
 
 
 .star{
@@ -66,7 +66,6 @@ border-radius:50%;
 animation:blink 3s infinite alternate;
 
 }
-
 
 
 @keyframes blink{
@@ -107,9 +106,25 @@ box-shadow:0 0 35px rgba(56,189,248,.2);
 
 h2{
 
-color:white;
+margin-bottom:25px;
+
+}
+
+
+
+#status{
+
+color:#9ccfff;
 
 margin-bottom:20px;
+
+}
+
+
+
+.form{
+
+display:none;
 
 }
 
@@ -123,17 +138,17 @@ padding:15px;
 
 margin-bottom:15px;
 
+background:rgba(255,255,255,.08);
+
 border:none;
 
-outline:none;
-
 border-radius:12px;
-
-background:rgba(255,255,255,.08);
 
 color:white;
 
 font-size:16px;
+
+outline:none;
 
 }
 
@@ -157,15 +172,11 @@ font-size:17px;
 
 cursor:pointer;
 
-transition:.3s;
-
 }
 
 
 
 button:hover{
-
-transform:scale(1.03);
 
 box-shadow:0 0 20px #38BDF8;
 
@@ -173,16 +184,29 @@ box-shadow:0 0 20px #38BDF8;
 
 
 
-#error{
+.register{
 
-color:#ff7777;
+margin-top:20px;
+
+color:#7dd3fc;
+
+cursor:pointer;
+
+}
+
+
+
+.error{
 
 margin-top:15px;
+
+color:#ff6b6b;
 
 }
 
 
 </style>
+
 
 </head>
 
@@ -196,11 +220,22 @@ margin-top:15px;
 <div class="card">
 
 
-<h2>Доступ ✨</h2>
+<h2>
+Доступ ✨
+</h2>
+
+
+<div id="status">
+
+</div>
+
+
+
+<div class="form">
 
 
 <input 
-id="email"
+id="login"
 placeholder="Email">
 
 
@@ -211,14 +246,32 @@ placeholder="Пароль">
 
 
 
-<button onclick="login()">
+<button onclick="enter()">
 
 Войти
 
 </button>
 
 
-<div id="error"></div>
+
+<div class="error" id="error"></div>
+
+
+
+<div class="register" onclick="location.href='register.html'">
+
+Нет аккаунта? Создать
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
 
 
 <script>
@@ -230,20 +283,13 @@ const stars=document.getElementById("stars");
 for(let i=0;i<200;i++){
 
 
-const s=document.createElement("div");
-
+let s=document.createElement("div");
 
 s.className="star";
 
-
 s.style.left=Math.random()*100+"%";
 
-
 s.style.top=Math.random()*100+"%";
-
-
-s.style.animationDelay=Math.random()*5+"s";
-
 
 stars.appendChild(s);
 
@@ -252,7 +298,40 @@ stars.appendChild(s);
 
 
 
+const status=document.getElementById("status");
+
+const form=document.querySelector(".form");
+
+
+
+setTimeout(()=>{
+
+status.innerHTML="Соединение...";
+
+},500);
+
+
+
+setTimeout(()=>{
+
+status.innerHTML="Проверка доступа...";
+
+},1700);
+
+
+
+setTimeout(()=>{
+
+status.innerHTML="Готово";
+
+form.style.display="block";
+
+},3000);
+
+
+
 </script>
+
 
 
 
@@ -274,23 +353,14 @@ signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 
-import {
-
-createUser
-
-} from "./user.js";
 
 
 
-
-
-window.login = async function(){
-
+window.enter = async function(){
 
 
 const email =
-document.getElementById("email").value.trim();
-
+document.getElementById("login").value.trim();
 
 
 const password =
@@ -304,16 +374,6 @@ document.getElementById("error");
 
 
 error.innerHTML="";
-
-
-
-if(!email || !password){
-
-error.innerHTML="Заполни все поля";
-
-return;
-
-}
 
 
 
@@ -332,15 +392,7 @@ password
 
 
 
-await createUser();
-
-
-
-console.log("Вход выполнен");
-
-
-
-location.href="questions.html";
+window.location="questions.html";
 
 
 
@@ -356,7 +408,6 @@ error.innerHTML="Неверный Email или пароль";
 
 
 }
-
 
 
 }
