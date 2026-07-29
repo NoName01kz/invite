@@ -318,24 +318,31 @@ button.onclick = async () => {
 };
 
 </script>
+<script type="module">
+import {
+    createInvitation,
+    loadInvitation
+} from "./database.js";
 
-    <script type="module">
-import { db, doc, setDoc } from "./firebase.js";
+(async () => {
 
-window.testFirebase = async function () {
-    try {
-        await setDoc(doc(db, "invitation", "main"), {
-            completed: false,
-            openedInvite: false,
-            createdAt: new Date().toISOString()
-        });
+    // Создаём документ, если его ещё нет
+    await createInvitation();
 
-        alert("✅ Firebase подключён!");
-    } catch (e) {
-        console.error(e);
-        alert("❌ Ошибка подключения. Смотри консоль (F12).");
+    // Загружаем данные
+    const data = await loadInvitation();
+
+    console.log("Данные Firestore:", data);
+
+    // Если приглашение уже пройдено —
+    // сразу открываем invite.html
+    if (data.completed) {
+
+        window.location = "invite.html";
+
     }
-};
+
+})();
 </script>
     
 </body>
