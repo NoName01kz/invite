@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Добро пожаловать</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Inter",sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:#050816;
+    height:100vh;
+}
+
+/* Звёзды */
+
+#stars{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:blink 3s infinite alternate;
+}
+
+@keyframes blink{
+    from{
+        opacity:.2;
+        transform:scale(.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1.3);
+    }
+}
+
+/* Падающая звезда */
+
+.shooting-star{
+
+    position:absolute;
+    width:140px;
+    height:2px;
+
+    background:linear-gradient(to right,
+    white,
+    transparent);
+
+    transform:rotate(-30deg);
+
+    animation:shoot 2s linear forwards;
+
+}
+
+@keyframes shoot{
+
+0%{
+
+opacity:0;
+transform:translate(0,0) rotate(-30deg);
+
+}
+
+10%{
+
+opacity:1;
+
+}
+
+100%{
+
+opacity:0;
+transform:translate(-700px,500px) rotate(-30deg);
+
+}
+
+}
+
+
+/* Контент */
+
+.container{
+
+position:absolute;
+
+top:50%;
+
+left:50%;
+
+transform:translate(-50%,-50%);
+
+width:90%;
+max-width:700px;
+
+padding:45px;
+
+text-align:center;
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.15);
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
+box-shadow:0 0 40px rgba(0,180,255,.15);
+
+animation:fade 2s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+transform:translate(-50%,-40%);
+
+}
+
+to{
+
+opacity:1;
+transform:translate(-50%,-50%);
+
+}
+
+}
+
+h1{
+
+font-size:42px;
+
+font-weight:600;
+
+color:white;
+
+margin-bottom:25px;
+
+}
+
+p{
+
+font-size:20px;
+
+line-height:36px;
+
+color:#d5d5d5;
+
+margin-bottom:40px;
+
+}
+
+button{
+
+padding:18px 55px;
+
+border:none;
+
+border-radius:40px;
+
+font-size:18px;
+
+cursor:pointer;
+
+background:#38BDF8;
+
+color:white;
+
+transition:.35s;
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 30px #38BDF8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="container">
+
+<h1 id="title"></h1>
+
+<p id="text"></p>
+
+<button id="start" style="display:none;">
+Начать →
+</button>
+
+</div>
+
+<script>
+
+// ---------- ЗВЁЗДЫ ----------
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<220;i++){
+
+const star=document.createElement("div");
+
+star.className="star";
+
+star.style.left=Math.random()*100+"%";
+
+star.style.top=Math.random()*100+"%";
+
+star.style.animationDelay=Math.random()*5+"s";
+
+star.style.opacity=Math.random();
+
+stars.appendChild(star);
+
+}
+
+// ---------- ПАДАЮЩИЕ ----------
+
+setInterval(()=>{
+
+const s=document.createElement("div");
+
+s.className="shooting-star";
+
+s.style.left=Math.random()*window.innerWidth+"px";
+
+s.style.top=Math.random()*250+"px";
+
+stars.appendChild(s);
+
+setTimeout(()=>{
+
+s.remove();
+
+},2000);
+
+},8000);
+
+
+// ---------- ТЕКСТ ----------
+
+const title=document.getElementById("title");
+
+const text=document.getElementById("text");
+
+const button=document.getElementById("start");
+
+setTimeout(()=>{
+
+title.innerHTML="Добро пожаловать.";
+
+},800);
+
+setTimeout(()=>{
+
+text.innerHTML=
+"Если ты сейчас здесь —<br><br>значит это было не случайно.";
+
+},2200);
+
+setTimeout(()=>{
+
+text.innerHTML+=
+"<br><br>Этот сайт был создан только для одного человека.";
+
+},4300);
+
+setTimeout(()=>{
+
+button.style.display="inline-block";
+
+},6000);
+
+
+// ---------- КНОПКА ----------
+
+button.onclick=()=>{
+
+document.body.style.opacity="0";
+
+document.body.style.transition="1s";
+
+setTimeout(()=>{
+
+window.location="login.html";
+
+},1000);
+
+}
+
+</script>
+
+</body>
+</html>
