@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Приглашение ✨</title>
+<title>Приглашение ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -87,7 +87,7 @@ opacity:1;
 
 .card{
 
-width:min(92%,500px);
+width:min(92%,520px);
 
 padding:40px;
 
@@ -99,9 +99,9 @@ border-radius:30px;
 
 backdrop-filter:blur(18px);
 
-text-align:center;
-
 box-shadow:0 0 50px rgba(56,189,248,.2);
+
+text-align:center;
 
 animation:show 1s;
 
@@ -131,57 +131,9 @@ transform:translateY(0);
 
 
 
-h1{
-
-font-size:38px;
-
-margin-bottom:25px;
-
-}
-
-
-
-.message{
-
-font-size:20px;
-
-line-height:32px;
-
-color:#dbeafe;
-
-margin-bottom:25px;
-
-}
-
-
-
-.info{
-
-background:rgba(255,255,255,.08);
-
-padding:20px;
-
-border-radius:20px;
-
-margin-top:20px;
-
-}
-
-
-
-.item{
-
-margin:12px;
-
-font-size:18px;
-
-}
-
-
-
 .heart{
 
-font-size:40px;
+font-size:45px;
 
 animation:pulse 1.5s infinite;
 
@@ -201,9 +153,90 @@ transform:scale(1.2);
 
 
 
+h1{
+
+font-size:36px;
+
+margin:20px 0;
+
+}
+
+
+
+.text{
+
+font-size:20px;
+
+line-height:32px;
+
+color:#dbeafe;
+
+}
+
+
+
+.info{
+
+margin-top:25px;
+
+padding:20px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.08);
+
+}
+
+
+
+.item{
+
+margin:12px 0;
+
+font-size:18px;
+
+}
+
+
+
+.answers{
+
+margin-top:25px;
+
+text-align:left;
+
+background:rgba(255,255,255,.05);
+
+padding:20px;
+
+border-radius:20px;
+
+}
+
+
+
+.answers h3{
+
+margin-bottom:15px;
+
+}
+
+
+
+.answer{
+
+margin:10px 0;
+
+color:#cbd5e1;
+
+}
+
+
+
 </style>
 
 </head>
+
 
 
 <body>
@@ -221,17 +254,19 @@ transform:scale(1.2);
 </div>
 
 
+
 <h1>
-Для тебя
+Приглашение
 </h1>
 
 
 
-<div class="message">
+<div class="text">
 
-Я подготовил это приглашение специально для тебя ✨
+Это приглашение создано специально для тебя ✨
 
 </div>
+
 
 
 
@@ -241,20 +276,37 @@ transform:scale(1.2);
 <div class="item">
 
 📅 Дата:
-<span id="date">
-загрузка...
-</span>
+<span id="date">...</span>
 
 </div>
-
 
 
 <div class="item">
 
 🕒 Время:
-<span id="time">
-загрузка...
-</span>
+<span id="time">...</span>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="answers">
+
+<h3>
+Твои ответы 💫
+</h3>
+
+
+<div id="answersList">
+
+Загрузка...
+
+</div>
+
 
 </div>
 
@@ -262,9 +314,6 @@ transform:scale(1.2);
 
 </div>
 
-
-
-</div>
 
 
 
@@ -282,7 +331,9 @@ updateUser
 
 
 
+
 // Звезды
+
 
 const stars=document.getElementById("stars");
 
@@ -313,7 +364,8 @@ stars.appendChild(s);
 
 
 
-async function start(){
+
+async function loadInvite(){
 
 
 
@@ -323,29 +375,74 @@ const user = await loadUser();
 
 if(!user){
 
-console.log("Пользователь не найден");
+
+console.log("Нет пользователя");
+
 
 return;
+
 
 }
 
 
 
 
+
 document.getElementById("date").innerHTML =
 
-user.selectedDate || "не выбрана";
+user.selectedDate || "Дата не выбрана";
 
 
 
 document.getElementById("time").innerHTML =
 
-user.selectedTime || "не выбрано";
+user.selectedTime || "Время не выбрано";
 
 
 
 
-// отметить открытие
+
+const list=document.getElementById("answersList");
+
+
+
+if(user.answers){
+
+
+list.innerHTML="";
+
+
+Object.values(user.answers).forEach((answer,index)=>{
+
+
+list.innerHTML +=
+
+`
+
+<div class="answer">
+
+${index+1}. ${answer}
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+else{
+
+
+list.innerHTML="Ответов пока нет";
+
+
+}
+
+
+
 
 await updateUser({
 
@@ -359,7 +456,7 @@ inviteOpened:true
 
 
 
-start();
+loadInvite();
 
 
 
