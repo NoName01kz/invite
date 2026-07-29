@@ -320,23 +320,6 @@ window.location="login.html";
 }
 
 </script>
-<script type="module">
-import { db, doc, setDoc } from "./firebase.js";
 
-window.testFirebase = async function () {
-    try {
-        await setDoc(doc(db, "invitation", "main"), {
-            completed: false,
-            openedInvite: false,
-            createdAt: new Date().toISOString()
-        });
-
-        alert("✅ Firebase подключён!");
-    } catch (e) {
-        console.error(e);
-        alert("❌ Ошибка подключения. Смотри консоль (F12).");
-    }
-};
-</script>
 </body>
 </html>
