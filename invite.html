@@ -14,7 +14,6 @@
 
 <style>
 
-
 *{
 margin:0;
 padding:0;
@@ -35,9 +34,9 @@ justify-content:center;
 
 align-items:center;
 
-color:white;
-
 overflow:hidden;
+
+color:white;
 
 }
 
@@ -72,6 +71,7 @@ animation:blink 3s infinite alternate;
 }
 
 
+
 @keyframes blink{
 
 from{
@@ -86,11 +86,14 @@ opacity:1;
 
 
 
+
 .card{
 
 width:min(92%,520px);
 
 padding:40px;
+
+text-align:center;
 
 background:rgba(255,255,255,.06);
 
@@ -102,7 +105,29 @@ backdrop-filter:blur(18px);
 
 box-shadow:0 0 50px rgba(56,189,248,.2);
 
-text-align:center;
+animation:show .8s;
+
+}
+
+
+
+@keyframes show{
+
+from{
+
+opacity:0;
+
+transform:translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
 
 }
 
@@ -132,35 +157,35 @@ transform:scale(1.15);
 
 h1{
 
-margin:20px 0;
-
 font-size:36px;
+
+margin:20px 0;
 
 }
 
 
 
-.text{
+.message{
+
+font-size:21px;
+
+line-height:32px;
 
 color:#dbeafe;
 
-font-size:18px;
-
-line-height:30px;
-
 }
 
 
 
-.info{
+.box{
 
 margin-top:25px;
 
 padding:20px;
 
-background:rgba(255,255,255,.08);
-
 border-radius:20px;
+
+background:rgba(255,255,255,.08);
 
 }
 
@@ -168,9 +193,45 @@ border-radius:20px;
 
 .item{
 
-margin:10px;
-
 font-size:18px;
+
+margin:12px;
+
+}
+
+
+
+.place{
+
+margin-top:25px;
+
+padding:25px;
+
+background:rgba(56,189,248,.12);
+
+border-radius:20px;
+
+}
+
+
+
+.place h2{
+
+font-size:22px;
+
+margin-bottom:15px;
+
+}
+
+
+
+#placeText{
+
+font-size:24px;
+
+color:#38BDF8;
+
+font-weight:600;
 
 }
 
@@ -202,7 +263,7 @@ margin-bottom:15px;
 
 #countdown{
 
-font-size:25px;
+font-size:24px;
 
 color:#38BDF8;
 
@@ -212,35 +273,9 @@ font-weight:600;
 
 
 
-.answers{
-
-margin-top:25px;
-
-padding:20px;
-
-background:rgba(255,255,255,.05);
-
-border-radius:20px;
-
-text-align:left;
-
-}
-
-
-
-.answer{
-
-margin:10px 0;
-
-color:#cbd5e1;
-
-}
-
-
-
 #status{
 
-margin-top:15px;
+margin-top:20px;
 
 color:#7dd3fc;
 
@@ -253,10 +288,13 @@ color:#7dd3fc;
 </head>
 
 
+
 <body>
 
 
+
 <div id="stars"></div>
+
 
 
 
@@ -264,48 +302,88 @@ color:#7dd3fc;
 
 
 <div class="heart">
+
 ❤️
+
 </div>
 
 
+
 <h1>
+
 Приглашение
+
 </h1>
 
 
 
-<div class="text">
 
-Это место создано специально для тебя ✨
+<div class="message">
+
+Я хочу провести этот день вместе с тобой ✨
 
 </div>
 
 
 
-<div class="info">
+
+
+<div class="place">
+
+
+<h2>
+
+Наш план
+
+</h2>
+
+
+<div id="placeText">
+
+Загрузка...
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="box">
 
 
 <div class="item">
 
-📅 
+📅
+
 <span id="date">
-...
+
+-
+
 </span>
 
 </div>
+
 
 
 <div class="item">
 
-🕒 
+🕒
+
 <span id="time">
-...
+
+-
+
 </span>
 
 </div>
 
 
 </div>
+
 
 
 
@@ -314,7 +392,9 @@ color:#7dd3fc;
 
 
 <h2>
+
 ⏳ До встречи осталось
+
 </h2>
 
 
@@ -329,31 +409,12 @@ color:#7dd3fc;
 
 
 
-
-
-<div class="answers">
-
-
-<h3>
-Твои ответы 💫
-</h3>
-
-
-<div id="answersList">
-
-Загрузка...
-
-</div>
-
-
-</div>
-
-
-
 <div id="status"></div>
 
 
+
 </div>
+
 
 
 
@@ -380,28 +441,92 @@ updateUser
 const stars=document.getElementById("stars");
 
 
+
 for(let i=0;i<200;i++){
 
 
-const s=document.createElement("div");
+const star=document.createElement("div");
 
 
-s.className="star";
+star.className="star";
 
 
-s.style.left=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
 
 
-s.style.top=Math.random()*100+"%";
+star.style.top=Math.random()*100+"%";
 
 
-s.style.animationDelay=Math.random()*5+"s";
+star.style.animationDelay=Math.random()*5+"s";
 
 
-stars.appendChild(s);
+stars.appendChild(star);
 
 
 }
+
+
+
+
+
+
+function createPlaceText(place){
+
+
+
+if(!place){
+
+return "Сюрприз ❤️";
+
+}
+
+
+
+if(place.includes("Кино")){
+
+
+return "🎬 Я приглашаю тебя в кино ❤️";
+
+
+}
+
+
+
+if(place.includes("Прогулка")){
+
+
+return "🚶 Я приглашаю тебя на прогулку ❤️";
+
+
+}
+
+
+
+if(place.includes("Дом")){
+
+
+return "🏠 Я приглашаю тебя на уютный вечер ❤️";
+
+
+}
+
+
+
+if(place.includes("Кафе")){
+
+
+return "☕ Я приглашаю тебя в кафе ❤️";
+
+
+}
+
+
+
+return place;
+
+
+}
+
 
 
 
@@ -411,23 +536,31 @@ stars.appendChild(s);
 function startTimer(date,time){
 
 
-const target = new Date(
+
+const target=new Date(
+
 date+"T"+time
+
 ).getTime();
 
 
 
-const timer=setInterval(()=>{
+
+const interval=setInterval(()=>{
+
 
 
 const now=new Date().getTime();
+
 
 
 const distance=target-now;
 
 
 
+
 if(distance<=0){
+
 
 
 document.getElementById("countdown").innerHTML=
@@ -435,50 +568,73 @@ document.getElementById("countdown").innerHTML=
 "❤️ Время встречи наступило";
 
 
-clearInterval(timer);
+
+clearInterval(interval);
 
 
 return;
+
 
 }
 
 
 
+
+
 const days=Math.floor(
+
 distance/(1000*60*60*24)
+
 );
 
 
 
 const hours=Math.floor(
+
 (distance%(1000*60*60*24))
+
 /(1000*60*60)
+
 );
 
 
 
 const minutes=Math.floor(
+
 (distance%(1000*60*60))
+
 /(1000*60)
+
 );
 
 
 
 const seconds=Math.floor(
+
 (distance%(1000*60))
+
 /1000
+
 );
+
 
 
 
 document.getElementById("countdown").innerHTML=
 
 `
+
 ${days} дней<br>
-${hours} часов 
-${minutes} минут 
+
+${hours} часов
+
+${minutes} минут
+
 ${seconds} секунд
+
 `;
+
+
 
 
 
@@ -491,13 +647,18 @@ ${seconds} секунд
 
 
 
-async function openInvite(){
+
+
+
+async function loadInvite(){
 
 
 try{
 
 
+
 const user=await loadUser();
+
 
 
 
@@ -517,15 +678,26 @@ return;
 
 
 
+
+document.getElementById("placeText").innerHTML=
+
+createPlaceText(user.selectedPlace);
+
+
+
+
+
 document.getElementById("date").innerHTML=
 
-user.selectedDate || "Нет";
+user.selectedDate || "Не выбрано";
+
+
 
 
 
 document.getElementById("time").innerHTML=
 
-user.selectedTime || "Нет";
+user.selectedTime || "Не выбрано";
 
 
 
@@ -549,51 +721,12 @@ user.selectedTime
 
 
 
-const list=document.getElementById("answersList");
-
-
-
-if(user.answers && user.answers.length){
-
-
-list.innerHTML="";
-
-
-user.answers.forEach((a,i)=>{
-
-
-list.innerHTML+=`
-
-<div class="answer">
-
-${i+1}. ${a}
-
-</div>
-
-`;
-
-
-});
-
-
-}
-
-else{
-
-
-list.innerHTML="Ответов нет";
-
-
-}
-
-
-
-
 await updateUser({
 
 inviteOpened:true
 
 });
+
 
 
 
@@ -623,7 +756,7 @@ document.getElementById("status").innerHTML=
 
 
 
-openInvite();
+loadInvite();
 
 
 
