@@ -8,10 +8,12 @@
 
 <title>Приглашение ❤️</title>
 
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 
 <style>
+
 
 *{
 margin:0;
@@ -70,7 +72,6 @@ animation:blink 3s infinite alternate;
 }
 
 
-
 @keyframes blink{
 
 from{
@@ -109,7 +110,7 @@ text-align:center;
 
 .heart{
 
-font-size:50px;
+font-size:55px;
 
 animation:pulse 1.5s infinite;
 
@@ -121,7 +122,7 @@ animation:pulse 1.5s infinite;
 
 50%{
 
-transform:scale(1.2);
+transform:scale(1.15);
 
 }
 
@@ -131,9 +132,9 @@ transform:scale(1.2);
 
 h1{
 
-font-size:36px;
-
 margin:20px 0;
+
+font-size:36px;
 
 }
 
@@ -141,11 +142,11 @@ margin:20px 0;
 
 .text{
 
-font-size:19px;
+color:#dbeafe;
+
+font-size:18px;
 
 line-height:30px;
-
-color:#dbeafe;
 
 }
 
@@ -157,9 +158,9 @@ margin-top:25px;
 
 padding:20px;
 
-border-radius:20px;
-
 background:rgba(255,255,255,.08);
+
+border-radius:20px;
 
 }
 
@@ -167,9 +168,45 @@ background:rgba(255,255,255,.08);
 
 .item{
 
-margin:12px;
+margin:10px;
 
 font-size:18px;
+
+}
+
+
+
+.timer{
+
+margin-top:25px;
+
+padding:25px;
+
+border-radius:20px;
+
+background:rgba(56,189,248,.12);
+
+}
+
+
+
+.timer h2{
+
+font-size:22px;
+
+margin-bottom:15px;
+
+}
+
+
+
+#countdown{
+
+font-size:25px;
+
+color:#38BDF8;
+
+font-weight:600;
 
 }
 
@@ -181,19 +218,11 @@ margin-top:25px;
 
 padding:20px;
 
-border-radius:20px;
-
 background:rgba(255,255,255,.05);
 
+border-radius:20px;
+
 text-align:left;
-
-}
-
-
-
-.answers h3{
-
-margin-bottom:15px;
 
 }
 
@@ -208,11 +237,12 @@ color:#cbd5e1;
 }
 
 
-.loading{
+
+#status{
+
+margin-top:15px;
 
 color:#7dd3fc;
-
-margin-top:20px;
 
 }
 
@@ -252,27 +282,51 @@ margin-top:20px;
 
 
 
-
 <div class="info">
 
 
 <div class="item">
 
-📅 Дата:
-<span id="date">...</span>
+📅 
+<span id="date">
+...
+</span>
 
 </div>
 
 
 <div class="item">
 
-🕒 Время:
-<span id="time">...</span>
+🕒 
+<span id="time">
+...
+</span>
 
 </div>
 
 
 </div>
+
+
+
+
+<div class="timer">
+
+
+<h2>
+⏳ До встречи осталось
+</h2>
+
+
+<div id="countdown">
+
+Загрузка...
+
+</div>
+
+
+</div>
+
 
 
 
@@ -296,7 +350,7 @@ margin-top:20px;
 
 
 
-<div class="loading" id="status"></div>
+<div id="status"></div>
 
 
 </div>
@@ -315,7 +369,6 @@ loadUser,
 updateUser
 
 } from "./user.js";
-
 
 
 
@@ -355,27 +408,105 @@ stars.appendChild(s);
 
 
 
+function startTimer(date,time){
+
+
+const target = new Date(
+date+"T"+time
+).getTime();
+
+
+
+const timer=setInterval(()=>{
+
+
+const now=new Date().getTime();
+
+
+const distance=target-now;
+
+
+
+if(distance<=0){
+
+
+document.getElementById("countdown").innerHTML=
+
+"❤️ Время встречи наступило";
+
+
+clearInterval(timer);
+
+
+return;
+
+}
+
+
+
+const days=Math.floor(
+distance/(1000*60*60*24)
+);
+
+
+
+const hours=Math.floor(
+(distance%(1000*60*60*24))
+/(1000*60*60)
+);
+
+
+
+const minutes=Math.floor(
+(distance%(1000*60*60))
+/(1000*60)
+);
+
+
+
+const seconds=Math.floor(
+(distance%(1000*60))
+/1000
+);
+
+
+
+document.getElementById("countdown").innerHTML=
+
+`
+${days} дней<br>
+${hours} часов 
+${minutes} минут 
+${seconds} секунд
+`;
+
+
+
+},1000);
+
+
+}
+
+
+
+
 
 async function openInvite(){
-
-
-
-const status=document.getElementById("status");
-
 
 
 try{
 
 
-
-const user = await loadUser();
+const user=await loadUser();
 
 
 
 if(!user){
 
 
-status.innerHTML="Пользователь не найден";
+document.getElementById("status").innerHTML=
+
+"Пользователь не найден";
 
 
 return;
@@ -386,16 +517,33 @@ return;
 
 
 
-document.getElementById("date").innerHTML =
+document.getElementById("date").innerHTML=
 
-user.selectedDate || "Не выбрана";
+user.selectedDate || "Нет";
 
 
 
-document.getElementById("time").innerHTML =
+document.getElementById("time").innerHTML=
 
-user.selectedTime || "Не выбрано";
+user.selectedTime || "Нет";
 
+
+
+
+
+if(user.selectedDate && user.selectedTime){
+
+
+startTimer(
+
+user.selectedDate,
+
+user.selectedTime
+
+);
+
+
+}
 
 
 
@@ -408,29 +556,24 @@ const list=document.getElementById("answersList");
 if(user.answers && user.answers.length){
 
 
-
 list.innerHTML="";
 
 
-
-user.answers.forEach((item,index)=>{
-
+user.answers.forEach((a,i)=>{
 
 
-list.innerHTML += `
+list.innerHTML+=`
 
 <div class="answer">
 
-${index+1}. ${item}
+${i+1}. ${a}
 
 </div>
 
 `;
 
 
-
 });
-
 
 
 }
@@ -446,8 +589,6 @@ list.innerHTML="Ответов нет";
 
 
 
-
-
 await updateUser({
 
 inviteOpened:true
@@ -456,7 +597,9 @@ inviteOpened:true
 
 
 
-status.innerHTML="Приглашение открыто ✨";
+document.getElementById("status").innerHTML=
+
+"Приглашение открыто ✨";
 
 
 
@@ -468,11 +611,12 @@ catch(e){
 console.log(e);
 
 
-status.innerHTML="Ошибка загрузки";
+document.getElementById("status").innerHTML=
+
+"Ошибка загрузки";
 
 
 }
-
 
 
 }
