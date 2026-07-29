@@ -327,25 +327,51 @@ window.location="login.html";
 <script type="module">
 
 import {
-    createInvitation,
-    loadInvitation
-} from "./database.js";
+    createUser,
+    loadUser
+} from "./user.js";
 
 
 (async()=>{
 
-await createInvitation();
 
-const data = await loadInvitation();
-
-console.log("Данные Firestore:", data);
+    try{
 
 
-if(data && data.completed){
+        // создаём или находим пользователя
+        const userId = await createUser();
 
-window.location="invite.html";
 
-}
+        console.log("ID пользователя:", userId);
+
+
+
+        // получаем его данные
+        const data = await loadUser();
+
+
+        console.log("Данные пользователя:", data);
+
+
+
+        // если он уже прошёл приглашение
+        if(data && data.completed === true){
+
+
+            window.location = "invite.html";
+
+
+        }
+
+
+
+    }
+    catch(error){
+
+        console.error("Ошибка пользователя:", error);
+
+    }
+
 
 
 })();
