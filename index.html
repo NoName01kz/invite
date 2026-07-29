@@ -301,10 +301,9 @@ button.style.display="inline-block";
 
 // ---------- КНОПКА ----------
 
-button.onclick = async () => {
+button.onclick = () => {
 
     document.body.style.opacity="0";
-
     document.body.style.transition="1s";
 
     setTimeout(()=>{
@@ -314,6 +313,7 @@ button.onclick = async () => {
     },1000);
 
 };
+    
 <script type="module">
 import {
     createInvitation,
