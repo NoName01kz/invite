@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Спасибо ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+
+background:#050816;
+
+color:white;
+
+overflow:hidden;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+min-height:100vh;
+
+padding:30px;
+
+}
+
+/* ---------- Звезды ---------- */
+
+#stars{
+
+position:fixed;
+
+inset:0;
+
+z-index:0;
+
+}
+
+.star{
+
+position:absolute;
+
+background:white;
+
+border-radius:50%;
+
+opacity:.8;
+
+}
+
+/* ---------- Карточка ---------- */
+
+.card{
+
+position:relative;
+
+z-index:2;
+
+width:min(92%,650px);
+
+padding:40px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.12);
+
+border-radius:28px;
+
+backdrop-filter:blur(18px);
+
+box-shadow:0 0 40px rgba(56,189,248,.15);
+
+animation:fade .8s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+h1{
+
+text-align:center;
+
+font-size:38px;
+
+margin-bottom:15px;
+
+}
+
+.subtitle{
+
+text-align:center;
+
+color:#cbd5e1;
+
+line-height:30px;
+
+margin-bottom:35px;
+
+}
+
+/* ---------- Звезды оценки ---------- */
+
+.rating{
+
+display:flex;
+
+justify-content:center;
+
+gap:12px;
+
+margin-bottom:30px;
+
+}
+
+.starRate{
+
+font-size:42px;
+
+cursor:pointer;
+
+transition:.25s;
+
+filter:grayscale(100%);
+
+}
+
+.starRate:hover{
+
+transform:scale(1.2);
+
+}
+
+.starRate.active{
+
+filter:none;
+
+}
+
+/* ---------- Настроение ---------- */
+
+.moods{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:15px;
+
+margin-bottom:30px;
+
+}
+
+.mood{
+
+padding:15px;
+
+border-radius:15px;
+
+background:rgba(255,255,255,.07);
+
+text-align:center;
+
+cursor:pointer;
+
+transition:.25s;
+
+border:1px solid transparent;
+
+}
+
+.mood:hover{
+
+transform:scale(1.03);
+
+}
+
+.mood.active{
+
+background:#38BDF8;
+
+border-color:white;
+
+}
+
+/* ---------- Текст ---------- */
+
+textarea{
+
+width:100%;
+
+height:170px;
+
+resize:none;
+
+padding:18px;
+
+border:none;
+
+outline:none;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+
+font-size:16px;
+
+margin-bottom:30px;
+
+}
+
+/* ---------- Кнопка ---------- */
+
+button{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+border-radius:18px;
+
+background:#38BDF8;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.02);
+
+box-shadow:0 0 25px #38BDF8;
+
+}
+
+/* ---------- Финал ---------- */
+
+#thanks{
+
+display:none;
+
+text-align:center;
+
+animation:fade .8s;
+
+}
+
+#thanks h2{
+
+font-size:40px;
+
+margin-bottom:20px;
+
+}
+
+#thanks p{
+
+font-size:20px;
+
+line-height:34px;
+
+color:#dbeafe;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="card">
+
+<div id="form">
+
+<h1>❤️ Спасибо</h1>
+
+<div class="subtitle">
+
+Надеюсь, этот день подарил тебе хорошие эмоции.<br>
+Если захочешь — оставь небольшой отзыв.
+
+</div>
+
+<div class="rating" id="rating">
+
+<span class="starRate">⭐</span>
+<span class="starRate">⭐</span>
+<span class="starRate">⭐</span>
+<span class="starRate">⭐</span>
+<span class="starRate">⭐</span>
+
+</div>
+
+<div class="moods">
+
+<div class="mood">😊 Было замечательно</div>
+
+<div class="mood">🥰 Хочу повторить</div>
+
+<div class="mood">❤️ Очень понравилось</div>
+
+<div class="mood">✨ Это было особенным</div>
+
+<div class="mood">💙 Спасибо за этот день</div>
+
+</div>
+
+<textarea
+id="reviewText"
+placeholder="Что тебе понравилось больше всего? ❤️"
+></textarea>
+
+<button id="sendReview">
+
+💌 Отправить отзыв
+
+</button>
+
+</div>
+
+<div id="thanks">
+
+<h2>✨ Спасибо ❤️</h2>
+
+<p>
+
+Твой отзыв сохранён.<br><br>
+
+Этот сайт был создан только для тебя.<br><br>
+
+Надеюсь,<br>
+
+это только начало нашей истории.
+
+</p>
+
+</div>
+
+<script type="module">
+
+import {
+loadUser,
+updateUser
+} from "./user.js";
+
+
+// --------------------
+// ЗВЁЗДЫ
+// --------------------
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<220;i++){
+
+const s=document.createElement("div");
+
+s.className="star";
+
+const size=Math.random()*3+1;
+
+s.style.width=size+"px";
+s.style.height=size+"px";
+
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+
+stars.appendChild(s);
+
+}
+
+
+
+// --------------------
+// ПЕРЕМЕННЫЕ
+// --------------------
+
+let rating=0;
+let mood="";
+
+const starElements=[...document.querySelectorAll(".starRate")];
+const moodElements=[...document.querySelectorAll(".mood")];
+
+
+
+// --------------------
+// ОЦЕНКА
+// --------------------
+
+starElements.forEach((star,index)=>{
+
+star.onclick=()=>{
+
+rating=index+1;
+
+starElements.forEach((s,i)=>{
+
+if(i<=index){
+
+s.classList.add("active");
+
+}else{
+
+s.classList.remove("active");
+
+}
+
+});
+
+};
+
+});
+
+
+
+// --------------------
+// НАСТРОЕНИЕ
+// --------------------
+
+moodElements.forEach(item=>{
+
+item.onclick=()=>{
+
+moodElements.forEach(x=>x.classList.remove("active"));
+
+item.classList.add("active");
+
+mood=item.innerText;
+
+};
+
+});
+
+
+
+// --------------------
+// ПРОВЕРКА
+// --------------------
+
+const user=await loadUser();
+
+if(!user){
+
+location.href="login.html";
+
+}
+
+if(user.reviewSent){
+
+document.getElementById("form").style.display="none";
+
+document.getElementById("thanks").style.display="block";
+
+}
+
+
+
+// --------------------
+// ОТПРАВКА
+// --------------------
+
+document.getElementById("sendReview").onclick=async()=>{
+
+if(rating===0){
+
+alert("Поставь оценку ❤️");
+
+return;
+
+}
+
+if(mood===""){
+
+alert("Выбери настроение ❤️");
+
+return;
+
+}
+
+const text=document
+.getElementById("reviewText")
+.value
+.trim();
+
+await updateUser({
+
+reviewSent:true,
+
+review:{
+
+rating:rating,
+
+mood:mood,
+
+text:text,
+
+createdAt:new Date().toISOString()
+
+}
+
+});
+
+document.getElementById("form").style.display="none";
+
+document.getElementById("thanks").style.display="block";
+
+};
+
+</script>
+
+</body>
+</html>
