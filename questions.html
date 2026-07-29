@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Несколько вопросов</title>
+<title>Вопросы ✨</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 
 <style>
 
@@ -14,40 +17,73 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:"Inter",sans-serif;
+font-family:Inter,sans-serif;
 }
+
 
 body{
+
 background:#050816;
-overflow:hidden;
+
 height:100vh;
+
 display:flex;
+
 justify-content:center;
+
 align-items:center;
+
+overflow:hidden;
+
 color:white;
+
 }
+
+
 
 #stars{
+
 position:fixed;
+
 width:100%;
+
 height:100%;
-overflow:hidden;
+
 }
+
+
 
 .star{
+
 position:absolute;
+
 width:2px;
+
 height:2px;
+
 background:white;
+
 border-radius:50%;
+
 opacity:.5;
+
 animation:blink 3s infinite alternate;
+
 }
 
+
 @keyframes blink{
-from{opacity:.2;}
-to{opacity:1;}
+
+from{
+opacity:.2;
 }
+
+to{
+opacity:1;
+}
+
+}
+
 
 
 .card{
@@ -56,22 +92,21 @@ width:min(92%,470px);
 
 padding:35px;
 
-border-radius:24px;
-
 background:rgba(255,255,255,.06);
 
 border:1px solid rgba(255,255,255,.12);
 
+border-radius:25px;
+
 backdrop-filter:blur(15px);
 
-box-shadow:0 0 35px rgba(56,189,248,.18);
+box-shadow:0 0 35px rgba(56,189,248,.2);
 
 }
 
 
-.progress{
 
-font-size:14px;
+.progress{
 
 color:#7dd3fc;
 
@@ -80,56 +115,60 @@ margin-bottom:15px;
 }
 
 
+
 .bar{
 
 height:8px;
 
-background:rgba(255,255,255,.08);
+background:rgba(255,255,255,.1);
 
 border-radius:20px;
 
-margin-bottom:30px;
-
 overflow:hidden;
 
+margin-bottom:30px;
+
 }
+
 
 
 .fill{
 
 height:100%;
 
+width:20%;
+
 background:#38BDF8;
 
-transition:.5s;
+transition:.4s;
 
 }
 
 
+
 h2{
 
-font-size:28px;
+font-size:27px;
+
+line-height:38px;
 
 margin-bottom:20px;
 
 }
 
 
+
 textarea{
 
 width:100%;
 
-height:140px;
+height:130px;
 
-resize:none;
-
-padding:18px;
+padding:15px;
 
 border:none;
 
-outline:none;
-
-border-radius:16px;
+border-radius:15px;
 
 background:rgba(255,255,255,.08);
 
@@ -137,10 +176,45 @@ color:white;
 
 font-size:16px;
 
+outline:none;
+
 }
 
 
-button{
+
+.answer{
+
+width:100%;
+
+margin-top:12px;
+
+padding:15px;
+
+border:none;
+
+border-radius:15px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+
+
+.answer.active{
+
+background:#38BDF8;
+
+}
+
+
+
+.next{
 
 margin-top:30px;
 
@@ -150,7 +224,7 @@ padding:16px;
 
 border:none;
 
-border-radius:16px;
+border-radius:15px;
 
 background:#38BDF8;
 
@@ -163,15 +237,18 @@ cursor:pointer;
 }
 
 
+
 </style>
 
 </head>
+
 
 
 <body>
 
 
 <div id="stars"></div>
+
 
 
 <div class="card">
@@ -191,13 +268,16 @@ cursor:pointer;
 </div>
 
 
+
 <h2 id="question"></h2>
+
 
 
 <div id="answers"></div>
 
 
-<button onclick="nextQuestion()">
+
+<button class="next" onclick="nextQuestion()">
 
 Далее →
 
@@ -208,84 +288,135 @@ cursor:pointer;
 
 
 
+
 <script type="module">
 
 
 import {
-saveAnswers
+
+updateUser
+
 } from "./user.js";
 
 
 
+
 // Звезды
+
 
 const stars=document.getElementById("stars");
 
 
 for(let i=0;i<180;i++){
 
+
 const s=document.createElement("div");
+
 
 s.className="star";
 
+
 s.style.left=Math.random()*100+"%";
+
 
 s.style.top=Math.random()*100+"%";
 
+
 s.style.animationDelay=Math.random()*4+"s";
+
 
 stars.appendChild(s);
 
+
 }
 
 
 
-// Вопросы
+
 
 const questions=[
 
+
 {
+
 type:"text",
+
 question:"Что делает день для тебя по-настоящему хорошим?"
+
 },
 
+
 {
+
 type:"choice",
+
 question:"Какой вечер нравится больше?",
+
 answers:[
+
 "🌅 Закат",
+
 "☕ Кафе",
+
 "🎬 Кино",
+
 "🚶 Прогулка"
+
 ]
+
 },
 
+
 {
+
 type:"choice",
+
 question:"Что выберешь?",
+
 answers:[
+
 "☕ Кофе",
+
 "🍵 Чай",
+
 "🧃 Сок",
+
 "🥤 Лимонад"
+
 ]
+
 },
 
+
 {
+
 type:"text",
+
 question:"Есть ли место, куда ты давно хотела сходить?"
+
 },
 
+
 {
+
 type:"choice",
+
 question:"Что важнее всего на первом свидании?",
+
 answers:[
+
 "😊 Разговор",
+
 "😂 Смех",
+
 "🌇 Атмосфера",
+
 "🍰 Еда"
+
 ]
+
 }
+
 
 ];
 
@@ -293,91 +424,112 @@ answers:[
 
 let current=0;
 
-const userAnswers=[];
+
+const answers=[];
 
 
 
 function render(){
 
 
-document.getElementById("number").innerHTML=current+1;
+
+number.innerHTML=current+1;
 
 
-document.getElementById("fill").style.width =
+
+fill.style.width=
+
 ((current+1)/questions.length*100)+"%";
 
 
 
-document.getElementById("question").innerHTML =
+question.innerHTML=
+
 questions[current].question;
 
 
 
-const area=document.getElementById("answers");
+const box=document.getElementById("answers");
 
-area.innerHTML="";
+
+box.innerHTML="";
+
 
 
 
 if(questions[current].type==="text"){
 
 
-area.innerHTML=
+
+box.innerHTML=
+
 `
-<textarea id="answer"></textarea>
+
+<textarea id="textAnswer"></textarea>
+
 `;
 
 
+
 }
+
+
+
 else{
 
 
-questions[current].answers.forEach(answer=>{
+
+questions[current].answers.forEach(a=>{
 
 
-area.innerHTML+=`
 
-<button
-style="
-margin-top:12px;
-background:rgba(255,255,255,.08)
-"
-onclick="selectAnswer(this,'${answer}')">
+box.innerHTML+=
 
-${answer}
+`
+
+<button class="answer"
+
+onclick="choose(this,'${a}')">
+
+${a}
 
 </button>
 
 `;
 
 
-});
-
-
-}
-
-
-}
-
-
-
-window.selectAnswer=function(btn,text){
-
-
-document.querySelectorAll("#answers button")
-.forEach(b=>{
-
-b.style.background="rgba(255,255,255,.08)";
 
 });
 
 
-btn.style.background="#38BDF8";
 
-btn.dataset.value=text;
+}
+
 
 
 }
+
+
+
+window.choose=function(btn,value){
+
+
+
+document.querySelectorAll(".answer")
+
+.forEach(b=>b.classList.remove("active"));
+
+
+
+btn.classList.add("active");
+
+
+btn.dataset.value=value;
+
+
+
+};
+
 
 
 
@@ -386,40 +538,56 @@ window.nextQuestion=async function(){
 
 
 
+let answer;
+
+
+
 if(questions[current].type==="text"){
 
 
-userAnswers[current]=
-document.getElementById("answer").value;
+
+answer=document.getElementById("textAnswer").value;
+
+
+
+if(!answer){
+
+alert("Напиши ответ ❤️");
+
+return;
+
+}
 
 
 
 }
+
 else{
 
 
-const active=[...document.querySelectorAll("#answers button")]
-.find(x=>x.dataset.value);
+const selected=document.querySelector(".answer.active");
 
 
 
-if(!active){
-
+if(!selected){
 
 alert("Выбери вариант ❤️");
 
 return;
 
+}
+
+
+
+answer=selected.dataset.value;
+
 
 }
 
 
 
-userAnswers[current]=active.dataset.value;
 
-
-}
-
+answers.push(answer);
 
 
 
@@ -431,25 +599,19 @@ if(current>=questions.length){
 
 
 
-await saveAnswers({
+await updateUser({
 
-
-question1:userAnswers[0],
-
-question2:userAnswers[1],
-
-question3:userAnswers[2],
-
-question4:userAnswers[3],
-
-question5:userAnswers[4]
-
+answers:answers
 
 });
 
 
 
-console.log("Ответы записаны в Firestore");
+await updateUser({
+
+completed:true
+
+});
 
 
 
@@ -471,6 +633,7 @@ render();
 
 
 
+
 render();
 
 
@@ -478,5 +641,7 @@ render();
 </script>
 
 
+
 </body>
+
 </html>
