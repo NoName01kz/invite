@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Авторизация</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+background:#050816;
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#stars{
+position:fixed;
+width:100%;
+height:100%;
+}
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:blink 3s infinite alternate;
+}
+
+@keyframes blink{
+from{opacity:.2;}
+to{opacity:1;}
+}
+
+.card{
+
+width:380px;
+
+padding:40px;
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.1);
+
+border-radius:25px;
+
+backdrop-filter:blur(15px);
+
+text-align:center;
+
+box-shadow:0 0 35px rgba(56,189,248,.2);
+
+}
+
+h2{
+
+color:white;
+
+margin-bottom:20px;
+
+}
+
+#status{
+
+color:#9ccfff;
+
+margin-bottom:25px;
+
+min-height:25px;
+
+}
+
+.form{
+
+display:none;
+
+animation:fade .8s;
+
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+input{
+
+width:100%;
+
+padding:15px;
+
+margin-bottom:15px;
+
+background:rgba(255,255,255,.08);
+
+border:none;
+
+border-radius:12px;
+
+color:white;
+
+font-size:16px;
+
+outline:none;
+
+}
+
+button{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#38BDF8;
+
+color:white;
+
+font-size:17px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.03);
+
+box-shadow:0 0 20px #38BDF8;
+
+}
+
+.error{
+
+margin-top:15px;
+
+color:#ff6b6b;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="card">
+
+<h2>Доступ</h2>
+
+<div id="status"></div>
+
+<div class="form">
+
+<input id="login" placeholder="Логин">
+
+<input id="password" type="password" placeholder="Пароль">
+
+<button onclick="enter()">
+Войти
+</button>
+
+<div class="error" id="error"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<200;i++){
+
+const s=document.createElement("div");
+
+s.className="star";
+
+s.style.left=Math.random()*100+"%";
+
+s.style.top=Math.random()*100+"%";
+
+s.style.animationDelay=Math.random()*5+"s";
+
+stars.appendChild(s);
+
+}
+
+const status=document.getElementById("status");
+
+const form=document.querySelector(".form");
+
+setTimeout(()=>{
+status.innerHTML="Соединение...";
+},500);
+
+setTimeout(()=>{
+status.innerHTML="Поиск приглашения...";
+},1700);
+
+setTimeout(()=>{
+status.innerHTML="Доступ найден.";
+},3000);
+
+setTimeout(()=>{
+form.style.display="block";
+},3800);
+
+function enter(){
+
+const login=document.getElementById("login").value;
+
+const password=document.getElementById("password").value;
+
+if(login==="stella" && password==="12345"){
+
+window.location="quest.html";
+
+}else{
+
+document.getElementById("error").innerHTML="Неверный логин или пароль";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
