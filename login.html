@@ -38,6 +38,7 @@ align-items:center;
 }
 
 
+
 #stars{
 
 position:fixed;
@@ -47,6 +48,7 @@ width:100%;
 height:100%;
 
 }
+
 
 
 .star{
@@ -64,6 +66,7 @@ border-radius:50%;
 animation:blink 3s infinite alternate;
 
 }
+
 
 
 @keyframes blink{
@@ -86,9 +89,9 @@ width:380px;
 
 padding:40px;
 
-background:rgba(255,255,255,.05);
+background:rgba(255,255,255,.06);
 
-border:1px solid rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.12);
 
 border-radius:25px;
 
@@ -112,50 +115,6 @@ margin-bottom:20px;
 
 
 
-#status{
-
-color:#9ccfff;
-
-margin-bottom:25px;
-
-min-height:25px;
-
-}
-
-
-
-.form{
-
-display:none;
-
-animation:fade .8s;
-
-}
-
-
-
-@keyframes fade{
-
-from{
-
-opacity:0;
-
-transform:translateY(15px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-
-
-
 input{
 
 width:100%;
@@ -164,17 +123,17 @@ padding:15px;
 
 margin-bottom:15px;
 
-background:rgba(255,255,255,.08);
-
 border:none;
 
+outline:none;
+
 border-radius:12px;
+
+background:rgba(255,255,255,.08);
 
 color:white;
 
 font-size:16px;
-
-outline:none;
 
 }
 
@@ -214,16 +173,16 @@ box-shadow:0 0 20px #38BDF8;
 
 
 
-.error{
+#error{
+
+color:#ff7777;
 
 margin-top:15px;
 
-color:#ff6b6b;
-
 }
 
-</style>
 
+</style>
 
 </head>
 
@@ -237,42 +196,38 @@ color:#ff6b6b;
 <div class="card">
 
 
-<h2>Доступ</h2>
+<h2>Доступ ✨</h2>
 
 
-<div id="status"></div>
+<input 
+id="email"
+placeholder="Email">
 
 
-<div class="form">
+<input 
+id="password"
+type="password"
+placeholder="Пароль">
 
 
-<input id="login" placeholder="Логин">
 
-
-<input id="password" type="password" placeholder="Пароль">
-
-
-<button onclick="enter()">
+<button onclick="login()">
 
 Войти
 
 </button>
 
 
-<div class="error" id="error"></div>
+<div id="error"></div>
 
 
 </div>
 
-
-</div>
 
 
 
 <script>
 
-
-// Звёзды
 
 const stars=document.getElementById("stars");
 
@@ -288,7 +243,9 @@ s.className="star";
 
 s.style.left=Math.random()*100+"%";
 
+
 s.style.top=Math.random()*100+"%";
+
 
 s.style.animationDelay=Math.random()*5+"s";
 
@@ -300,45 +257,8 @@ stars.appendChild(s);
 
 
 
-const status=document.getElementById("status");
-
-const form=document.querySelector(".form");
-
-
-
-setTimeout(()=>{
-
-status.innerHTML="Соединение...";
-
-},500);
-
-
-
-setTimeout(()=>{
-
-status.innerHTML="Поиск приглашения...";
-
-},1700);
-
-
-
-setTimeout(()=>{
-
-status.innerHTML="Доступ найден.";
-
-},3000);
-
-
-
-setTimeout(()=>{
-
-form.style.display="block";
-
-},3800);
-
-
-
 </script>
+
 
 
 
@@ -347,46 +267,44 @@ form.style.display="block";
 
 import {
 
-auth,
-
-signInWithEmailAndPassword,
-
-onAuthStateChanged
+auth
 
 } from "./firebase.js";
 
 
+import {
 
-// если уже вошёл
+signInWithEmailAndPassword
 
-onAuthStateChanged(auth,(user)=>{
-
-
-if(user){
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 
-window.location="questions.html";
+import {
 
+createUser
 
-}
-
-
-});
+} from "./user.js";
 
 
 
 
 
-window.enter = async function(){
+window.login = async function(){
 
 
-const login=document.getElementById("login").value.trim();
+
+const email =
+document.getElementById("email").value.trim();
 
 
-const password=document.getElementById("password").value;
+
+const password =
+document.getElementById("password").value;
 
 
-const error=document.getElementById("error");
+
+const error =
+document.getElementById("error");
 
 
 
@@ -394,11 +312,13 @@ error.innerHTML="";
 
 
 
-const email = login.includes("@")
+if(!email || !password){
 
-? login
+error.innerHTML="Заполни все поля";
 
-: login + "@starinvite.com";
+return;
+
+}
 
 
 
@@ -417,7 +337,15 @@ password
 
 
 
-window.location="questions.html";
+await createUser();
+
+
+
+console.log("Вход выполнен");
+
+
+
+location.href="questions.html";
 
 
 
@@ -429,7 +357,7 @@ catch(e){
 console.log(e);
 
 
-error.innerHTML="Неверный логин или пароль";
+error.innerHTML="Неверный Email или пароль";
 
 
 }
