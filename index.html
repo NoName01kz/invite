@@ -301,6 +301,8 @@ button.style.display="inline-block";
 
 // ---------- КНОПКА ----------
 
+<script>
+
 button.onclick = () => {
 
     document.body.style.opacity="0";
@@ -313,33 +315,36 @@ button.onclick = () => {
     },1000);
 
 };
-    
+
+</script>
+
+
 <script type="module">
+
 import {
     createInvitation,
     loadInvitation
 } from "./database.js";
 
+
 (async () => {
 
-    // Создаём документ, если его ещё нет
     await createInvitation();
 
-    // Загружаем данные
     const data = await loadInvitation();
 
     console.log("Данные Firestore:", data);
 
-    // Если приглашение уже пройдено —
-    // сразу открываем invite.html
-    if (data.completed) {
 
-        window.location = "invite.html";
+    if(data.completed){
+
+        window.location="invite.html";
 
     }
 
 })();
-</script>
+
+
 </script>
 
     
