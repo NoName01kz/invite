@@ -731,8 +731,8 @@ document.getElementById("openSecret")
 
 document.getElementById("openSecret").onclick = async function(){
 
-
     const button = document.getElementById("openSecret");
+
     const letter = document.getElementById("letter");
 
 
@@ -747,7 +747,7 @@ document.getElementById("openSecret").onclick = async function(){
     letter.innerHTML = "";
 
 
-    const message = window.secretMessage || 
+    const message = user.secretMessage || 
     "Спасибо, что ты здесь ❤️";
 
 
@@ -757,19 +757,23 @@ document.getElementById("openSecret").onclick = async function(){
     letter.classList.add("typing");
 
 
-    const timer = setInterval(()=>{
+    const letters = [...message];
 
 
-        letter.innerHTML += message.charAt(index);
+    const typing = setInterval(()=>{
+
+
+        letter.innerHTML += letters[index];
 
 
         index++;
 
 
-        if(index >= message.length){
+        if(index >= letters.length){
 
 
-            clearInterval(timer);
+            clearInterval(typing);
+
 
             letter.classList.remove("typing");
 
@@ -781,14 +785,11 @@ document.getElementById("openSecret").onclick = async function(){
 
 
 
-    // сохраняем открытие
-
     await updateUser({
 
         secretOpened:true
 
     });
-
 
 
 };
