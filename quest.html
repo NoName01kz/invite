@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Письмо</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+
+background:#050816;
+
+overflow:hidden;
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:white;
+
+}
+
+/* ---------- Звезды ---------- */
+
+#stars{
+
+position:fixed;
+
+width:100%;
+
+height:100%;
+
+overflow:hidden;
+
+}
+
+.star{
+
+position:absolute;
+
+width:2px;
+
+height:2px;
+
+background:white;
+
+border-radius:50%;
+
+animation:blink 3s infinite alternate;
+
+}
+
+@keyframes blink{
+
+from{opacity:.2;}
+
+to{opacity:1;}
+
+}
+
+/* ---------- Контейнер ---------- */
+
+.container{
+
+position:relative;
+
+z-index:10;
+
+text-align:center;
+
+}
+
+/* ---------- Конверт ---------- */
+
+.envelope{
+
+width:260px;
+
+height:170px;
+
+background:rgba(255,255,255,.08);
+
+border:1px solid rgba(255,255,255,.2);
+
+border-radius:15px;
+
+margin:auto;
+
+cursor:pointer;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:70px;
+
+backdrop-filter:blur(10px);
+
+transition:.5s;
+
+box-shadow:0 0 30px rgba(56,189,248,.2);
+
+}
+
+.envelope:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 40px #38BDF8;
+
+}
+
+/* ---------- Письмо ---------- */
+
+#letter{
+
+display:none;
+
+margin-top:35px;
+
+max-width:700px;
+
+padding:35px;
+
+background:rgba(255,255,255,.05);
+
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,.15);
+
+backdrop-filter:blur(12px);
+
+animation:fade 1s;
+
+line-height:32px;
+
+font-size:20px;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+button{
+
+margin-top:30px;
+
+padding:15px 45px;
+
+border:none;
+
+border-radius:40px;
+
+background:#38BDF8;
+
+color:white;
+
+font-size:17px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px #38BDF8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="container">
+
+<div class="envelope" onclick="openLetter()">
+
+💌
+
+</div>
+
+<div id="letter">
+
+<h2 style="margin-bottom:25px;">Привет.</h2>
+
+<p>
+
+Если ты читаешь это письмо,
+
+значит ты уже прошла первый шаг.
+
+<br><br>
+
+Я долго думал,
+
+как сделать приглашение необычным.
+
+И решил, что оно должно быть маленьким путешествием.
+
+<br><br>
+
+Поэтому впереди тебя ждёт ещё несколько шагов.
+
+В конце этого пути тебя будет ждать небольшой сюрприз.
+
+</p>
+
+<button onclick="location.href='questions.html'">
+
+Продолжить →
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const stars=document.getElementById("stars");
+
+for(let i=0;i<220;i++){
+
+const s=document.createElement("div");
+
+s.className="star";
+
+s.style.left=Math.random()*100+"%";
+
+s.style.top=Math.random()*100+"%";
+
+s.style.animationDelay=Math.random()*5+"s";
+
+stars.appendChild(s);
+
+}
+
+function openLetter(){
+
+document.querySelector(".envelope").style.display="none";
+
+document.getElementById("letter").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>
