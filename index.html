@@ -380,7 +380,42 @@ import {
 </script>
 
 
+<script type="module">
 
+import { auth } from "./firebase.js";
+import { onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+
+const button=document.getElementById("start");
+
+
+button.onclick=()=>{
+
+
+onAuthStateChanged(auth,(user)=>{
+
+
+if(user){
+
+window.location="questions.html";
+
+}
+
+else{
+
+window.location="register.html";
+
+}
+
+
+});
+
+
+};
+
+
+</script>
 </body>
 
 </html>
