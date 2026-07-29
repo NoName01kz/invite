@@ -159,7 +159,30 @@ border-color:transparent;
 }
 
 }
+.typing::after{
 
+content:"|";
+
+animation:blink .7s infinite;
+
+}
+
+
+@keyframes blink{
+
+0%,100%{
+
+opacity:1;
+
+}
+
+50%{
+
+opacity:0;
+
+}
+
+}
 .card{
 
 width:min(92%,500px);
@@ -706,70 +729,65 @@ document.getElementById("openSecret")
 
 
 
-document.getElementById("openSecret").onclick=async()=>{
+document.getElementById("openSecret").onclick = async function(){
 
 
-const button=document.getElementById("openSecret");
-
-const letter=document.getElementById("letter");
-
-
-button.classList.add("hidden");
+    const button = document.getElementById("openSecret");
+    const letter = document.getElementById("letter");
 
 
-document.getElementById("closedLetter").innerHTML="💌✨";
+    button.style.display = "none";
 
 
-
-letter.classList.remove("hidden");
-
-letter.classList.add("typing");
+    document.getElementById("closedLetter").innerHTML = "💌✨";
 
 
+    letter.classList.remove("hidden");
 
-let message=user.secretMessage || 
-"Спасибо, что ты здесь ❤️";
-
-
-
-let i=0;
+    letter.innerHTML = "";
 
 
-letter.innerHTML="";
+    const message = window.secretMessage || 
+    "Спасибо, что ты здесь ❤️";
 
 
-
-let interval=setInterval(()=>{
-
-
-letter.innerHTML += message[i];
+    let index = 0;
 
 
-i++;
+    letter.classList.add("typing");
 
 
-if(i>=message.length){
+    const timer = setInterval(()=>{
 
 
-clearInterval(interval);
+        letter.innerHTML += message.charAt(index);
 
 
-letter.classList.remove("typing");
+        index++;
 
 
-}
+        if(index >= message.length){
+
+
+            clearInterval(timer);
+
+            letter.classList.remove("typing");
+
+
+        }
+
+
+    },80);
 
 
 
-},60);
+    // сохраняем открытие
 
+    await updateUser({
 
+        secretOpened:true
 
-await updateUser({
-
-secretOpened:true
-
-});
+    });
 
 
 
