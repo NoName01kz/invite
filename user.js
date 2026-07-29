@@ -130,3 +130,26 @@ export async function updateUser(data){
     await setDoc(userRef,data,{merge:true});
 
 }
+
+// Сохранить выбранную дату и время
+export async function saveDateToUser(dateData){
+
+    const id = getUserId();
+
+    const userRef = doc(db,"users",id);
+
+
+    await setDoc(userRef,{
+
+        selectedDate: dateData.date,
+
+        selectedTime: dateData.time,
+
+        lastVisit: serverTimestamp()
+
+    },{merge:true});
+
+
+    console.log("Дата сохранена:", dateData);
+
+}
